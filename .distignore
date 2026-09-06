@@ -1,0 +1,73 @@
+# Files and folders excluded from the WordPress.org distribution ZIP.
+# scripts/build-zip.js reads this file before packaging.
+#
+# A leading slash anchors a pattern to the plugin root; anything else matches a
+# path segment at any depth. Patterns are listed even when the file does not
+# exist today, so the exclusion survives someone adding one later.
+
+# Version control and repository metadata
+/.git
+/.github
+/.gitignore
+/.gitattributes
+/.distignore
+
+# Editor, tooling and agent directories
+/.claude
+/.vscode
+/.idea
+/node_modules
+/vendor
+
+# Developer tooling. The plugin has no build step - this directory holds the
+# packaging script itself, which must never ship inside its own output.
+/scripts
+
+# Playground demo blueprint. Authored here so it is reviewable alongside the
+# plugin, but it is deployment material for the WordPress.org assets/ directory
+# and must never be inside the distributed ZIP.
+/blueprint
+
+# WordPress.org listing assets: banners, icons and screenshot-N.png all belong
+# to the SVN assets/ directory, never to the plugin package.
+/.wordpress-org
+banner-772x250.png
+banner-1544x500.png
+icon-128x128.png
+icon-256x256.png
+screenshot-*.png
+
+# Tests and QA material. The harness lives outside the repo, but an exclusion
+# costs nothing and closes the door on it being copied in.
+/tests
+/test
+/qa
+phpunit.xml
+phpunit.xml.dist
+.phpcs.xml
+.phpcs.xml.dist
+phpcs.xml
+phpcs.xml.dist
+
+# Package manager manifests for developer tooling
+composer.json
+composer.lock
+package.json
+package-lock.json
+yarn.lock
+
+# Build output and archives
+/dist
+/build
+*.zip
+
+# Transient and environment files
+*.log
+*.bak
+*.tmp
+*.map
+*.sql
+.env
+.env.local
+.DS_Store
+Thumbs.db

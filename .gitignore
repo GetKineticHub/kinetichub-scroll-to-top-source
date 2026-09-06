@@ -1,0 +1,9 @@
+# OS and editor artifacts
+.DS_Store
+Thumbs.db
+*.log
+
+# Never part of this plugin
+node_modules/
+vendor/
+*.map

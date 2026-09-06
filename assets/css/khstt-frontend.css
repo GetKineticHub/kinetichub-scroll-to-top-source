@@ -1,0 +1,494 @@
+/* =============================================================================
+   KineticHub Scroll to Top - Frontend
+
+   Every rule here is static. Per-site values (sizes, offsets, colors) arrive as
+   CSS custom properties in a small generated block, and anything that varies by
+   choice rather than by number is keyed off a data attribute on the wrapper.
+   That keeps the generated inline CSS tiny and this file cacheable.
+
+   Custom properties, all set by the generated block:
+     --khstt-size --khstt-icon
+     --khstt-bg --khstt-fg --khstt-bg-h --khstt-fg-h
+     --khstt-bw --khstt-bc
+     --khstt-ring-t --khstt-ring-c --khstt-track-c --khstt-track-o
+     --khstt-tx  (horizontal centring offset for the bottom-center preset)
+     --khstt-dock (set by the script when the footer is in view)
+
+   KineticPowers are not here. Their choreography lives in khstt-powers.css,
+   which is loaded only when a power is selected, so a control with none pays
+   nothing for the feature.
+   ============================================================================= */
+
+.khstt {
+	--khstt-dock: 0px;
+
+	position: fixed;
+	z-index: 9990;
+	line-height: 1;
+	transform: translate(var(--khstt-tx, 0px), calc(-1 * var(--khstt-dock)));
+	transition: transform .22s ease;
+
+	/* The wrapper is a transparent positioning box. Without this it would still
+	   sit over the page and swallow clicks meant for whatever is underneath,
+	   including while the button itself is hidden. Only the button takes
+	   pointer events back. */
+	pointer-events: none;
+}
+
+.khstt *,
+.khstt *::before,
+.khstt *::after {
+	box-sizing: border-box;
+}
+
+/* -----------------------------------------------------------------------------
+   Button
+   -------------------------------------------------------------------------- */
+
+.khstt__btn {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--khstt-size);
+	height: var(--khstt-size);
+	padding: 0;
+	margin: 0;
+	font: inherit;
+	color: var(--khstt-fg);
+	background: var(--khstt-bg);
+	border: var(--khstt-bw) solid var(--khstt-bc);
+	cursor: pointer;
+	pointer-events: auto;
+	-webkit-appearance: none;
+	appearance: none;
+	transition:
+		opacity .18s ease,
+		transform .18s ease,
+		background-color .18s ease,
+		color .18s ease,
+		box-shadow .18s ease;
+}
+
+/* Themes style bare element states, and a bare `button:focus` at specificity
+   (0,1,1) outranks the single class above. Astra ships exactly that -
+   `button:focus { background-color: var(--ast-global-color-1) }` - so after a
+   click, when the control is focused but has moved out from under the pointer,
+   the theme's accent colour won and the control wore it until focus moved on.
+   Repeating the painted colours one level deeper puts every state out of reach
+   of an element+pseudo-class rule on specificity alone, with no forced
+   declaration and no change to the theme's own styles. Hover is written last so
+   it still wins when the control is both hovered and focused. */
+
+.khstt .khstt__btn,
+.khstt .khstt__btn:focus,
+.khstt .khstt__btn:focus-visible,
+.khstt .khstt__btn:active {
+	color: var(--khstt-fg);
+	background: var(--khstt-bg);
+	border-color: var(--khstt-bc);
+}
+
+.khstt .khstt__btn:hover {
+	background: var(--khstt-bg-h);
+	color: var(--khstt-fg-h);
+	border-color: var(--khstt-bc);
+}
+
+/* The icon color is chosen to read against the button background, so it is the
+   one color guaranteed to contrast with whatever sits directly behind the ring. */
+.khstt__btn:focus-visible {
+	outline: 3px solid var(--khstt-fg);
+	outline-offset: 2px;
+}
+
+/* ---- Shape ---- */
+
+.khstt[data-shape="circle"] .khstt__btn {
+	border-radius: 50%;
+}
+
+.khstt[data-shape="rounded"] .khstt__btn {
+	border-radius: calc(var(--khstt-size) * .28);
+}
+
+.khstt[data-shape="square"] .khstt__btn {
+	border-radius: 4px;
+}
+
+/* ---- Shadow ---- */
+
+.khstt[data-shadow="soft"] .khstt__btn {
+	box-shadow: 0 4px 14px rgba(0, 0, 0, .16);
+}
+
+.khstt[data-shadow="soft"] .khstt__btn:hover {
+	box-shadow: 0 6px 20px rgba(0, 0, 0, .22);
+}
+
+.khstt[data-shadow="medium"] .khstt__btn {
+	box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+}
+
+.khstt[data-shadow="medium"] .khstt__btn:hover {
+	box-shadow: 0 12px 30px rgba(0, 0, 0, .28);
+}
+
+.khstt[data-shadow="strong"] .khstt__btn {
+	box-shadow: 0 12px 34px rgba(0, 0, 0, .30);
+}
+
+.khstt[data-shadow="strong"] .khstt__btn:hover {
+	box-shadow: 0 16px 42px rgba(0, 0, 0, .36);
+}
+
+/* ---- Backdrop blur ---- */
+
+.khstt[data-blur="1"] .khstt__btn {
+	-webkit-backdrop-filter: blur(8px);
+	backdrop-filter: blur(8px);
+}
+
+/* -----------------------------------------------------------------------------
+   Reveal states
+
+   Hidden uses visibility as well as opacity so the control leaves the tab order
+   entirely while it is away. The delayed visibility transition lets the fade
+   finish before it disappears.
+   -------------------------------------------------------------------------- */
+
+.khstt[data-visible="0"] .khstt__btn {
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(10px) scale(.92);
+	pointer-events: none;
+	transition:
+		opacity .18s ease,
+		transform .18s ease,
+		visibility 0s linear .18s;
+}
+
+/* Peek keeps the control present and interactive so hover, touch and focus can
+   restore it, which a fully hidden control could not offer. */
+.khstt[data-visible="peek"] .khstt__btn {
+	opacity: .45;
+	transform: scale(.7);
+}
+
+.khstt[data-visible="peek"] .khstt__btn:hover,
+.khstt[data-visible="peek"] .khstt__btn:focus-visible {
+	opacity: 1;
+	transform: none;
+}
+
+/* -----------------------------------------------------------------------------
+   Icon, percentage, and the Smart Return swap
+
+   Both glyphs are rendered up front and swapped with display, so changing state
+   never touches innerHTML at runtime.
+   -------------------------------------------------------------------------- */
+
+.khstt__icon,
+.khstt__pct {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+
+.khstt__glyph {
+	display: block;
+	width: var(--khstt-icon);
+	height: var(--khstt-icon);
+}
+
+.khstt__pct {
+	font-size: max(11px, calc(var(--khstt-size) * .3));
+	font-weight: 600;
+	font-variant-numeric: tabular-nums;
+	letter-spacing: -.02em;
+	display: none;
+}
+
+.khstt__icon--back {
+	display: none;
+}
+
+/* Percentage always: the number rests in the button, and the icon returns on
+   hover or focus so the action stays obvious. */
+@media (min-width: 768px) {
+	.khstt[data-pct="on"]:not([data-return="1"]) .khstt__btn:not(:hover):not(:focus-visible) .khstt__pct {
+		display: flex;
+	}
+
+	.khstt[data-pct="on"]:not([data-return="1"]) .khstt__btn:not(:hover):not(:focus-visible) .khstt__icon--up {
+		display: none;
+	}
+
+	.khstt[data-pct="hover"]:not([data-return="1"]) .khstt__btn:hover .khstt__pct,
+	.khstt[data-pct="hover"]:not([data-return="1"]) .khstt__btn:focus-visible .khstt__pct {
+		display: flex;
+	}
+
+	.khstt[data-pct="hover"]:not([data-return="1"]) .khstt__btn:hover .khstt__icon--up,
+	.khstt[data-pct="hover"]:not([data-return="1"]) .khstt__btn:focus-visible .khstt__icon--up {
+		display: none;
+	}
+}
+
+@media (max-width: 767px) {
+	.khstt[data-pct-mobile="on"]:not([data-return="1"]) .khstt__btn:not(:hover):not(:focus-visible) .khstt__pct {
+		display: flex;
+	}
+
+	.khstt[data-pct-mobile="on"]:not([data-return="1"]) .khstt__btn:not(:hover):not(:focus-visible) .khstt__icon--up {
+		display: none;
+	}
+
+	.khstt[data-pct-mobile="hover"]:not([data-return="1"]) .khstt__btn:hover .khstt__pct,
+	.khstt[data-pct-mobile="hover"]:not([data-return="1"]) .khstt__btn:focus-visible .khstt__pct {
+		display: flex;
+	}
+
+	.khstt[data-pct-mobile="hover"]:not([data-return="1"]) .khstt__btn:hover .khstt__icon--up,
+	.khstt[data-pct-mobile="hover"]:not([data-return="1"]) .khstt__btn:focus-visible .khstt__icon--up {
+		display: none;
+	}
+}
+
+/* Smart Return owns the glyph while it is offered. These selectors carry a
+   higher specificity than the percentage rules above on purpose, so the return
+   arrow always wins over a percentage readout. */
+.khstt[data-return="1"] .khstt__btn .khstt__icon--up,
+.khstt[data-return="1"] .khstt__btn .khstt__pct {
+	display: none;
+}
+
+.khstt[data-return="1"] .khstt__btn .khstt__icon--back {
+	display: flex;
+}
+
+/* -----------------------------------------------------------------------------
+   Progress ring
+
+   Geometry is written by the script from the ring element's own measured box,
+   so borders and responsive size changes never desynchronise the stroke.
+   -------------------------------------------------------------------------- */
+
+.khstt__ring {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	pointer-events: none;
+}
+
+.khstt__track {
+	stroke: var(--khstt-track-c);
+	stroke-opacity: var(--khstt-track-o);
+}
+
+.khstt__bar {
+	stroke: var(--khstt-ring-c);
+}
+
+/* -----------------------------------------------------------------------------
+   Interaction polish
+
+   Three small behaviours that make the control feel answered rather than
+   merely present. None of them changes what it does, and none of them
+   transforms #khstt, .khstt__btn, or the ring SVG - the progress ring's
+   measured box is exactly what it was without them.
+   -------------------------------------------------------------------------- */
+
+/* ---- Micro press feedback ----
+
+   A brief compression of the glyph layer when the control is activated. Both
+   layers are absolutely positioned inside the button, so transforming them
+   moves nothing that anything else measures. There is no setting for this: a
+   control that does not answer a press feels broken, not configurable. */
+
+.khstt__icon,
+.khstt__pct {
+	transition: transform .1s cubic-bezier(.2, .7, .3, 1);
+}
+
+.khstt[data-press="1"] .khstt__icon,
+.khstt[data-press="1"] .khstt__pct {
+	transform: translateY(1px) scale(.9);
+}
+
+/* ---- Smart Idle Fade ----
+
+   Softens a control that is already legitimately on screen once the reader
+   has stopped interacting. It is not a reveal state: the script only ever
+   applies it while data-visible is "1", so it can never combine with hidden
+   or with Peek, and it yields to focus, hover, Smart Return and a running
+   KineticPower.
+
+   Every rule names data-visible="1" as well as data-idle. The script already
+   refuses to set data-idle in any other state, but these rules sit after the
+   reveal states at equal specificity, so without that extra attribute a stale
+   idle flag could out-rank the hidden state purely on source order. Naming it
+   makes the restriction structural instead of a promise. */
+
+.khstt[data-visible="1"][data-idle="1"] .khstt__btn {
+	opacity: .62;
+}
+
+/* Hover restores the control on its own, with no timer involved. Gated on a
+   real hover capability so a tap on a touch screen cannot leave the control
+   stuck at full opacity through a lingering :hover. */
+@media (hover: hover) {
+	.khstt[data-visible="1"][data-idle="1"] .khstt__btn:hover {
+		opacity: 1;
+	}
+}
+
+.khstt[data-visible="1"][data-idle="1"] .khstt__btn:focus-visible {
+	opacity: 1;
+}
+
+/* ---- Hover and focus label ----
+
+   A compact pill beside the control, shown on hover and on keyboard focus.
+   Where it sits is decided by the generated per-breakpoint block, which knows
+   the effective position at every breakpoint - so the label follows every
+   responsive override without a media query here and without a geometry read
+   in the browser.
+
+     --khstt-lbl-l --khstt-lbl-r --khstt-lbl-b   placement
+     --khstt-lbl-tx --khstt-lbl-ty               centring shift
+
+   The defaults below place it to the left, which is where it belongs for the
+   default bottom-right control, so the markup is still correct if the
+   generated block is ever missing. */
+
+.khstt__label {
+	position: absolute;
+	left: var(--khstt-lbl-l, auto);
+	right: var(--khstt-lbl-r, calc(100% + 10px));
+	bottom: var(--khstt-lbl-b, 50%);
+	z-index: 1;
+	max-width: calc(100vw - 100px);
+	padding: 6px 10px;
+	overflow: hidden;
+	/* Not inherited. The button inherits the theme's font because it shows a
+	   glyph, but this shows words, and a theme with a display face for body
+	   copy would make a small pill unreadable. A system stack keeps it legible
+	   everywhere and still looks native. */
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-size: max(12px, calc(var(--khstt-size) * .26));
+	font-weight: 500;
+	line-height: 1.25;
+	color: var(--khstt-fg);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	background: var(--khstt-bg);
+	border-radius: 6px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
+	opacity: 0;
+	transform: translate(var(--khstt-lbl-tx, 0), var(--khstt-lbl-ty, 50%)) scale(.94);
+	transition: opacity .16s ease, transform .16s ease;
+	pointer-events: none;
+}
+
+@media (hover: hover) {
+	.khstt__btn:hover ~ .khstt__label {
+		opacity: 1;
+		transform: translate(var(--khstt-lbl-tx, 0), var(--khstt-lbl-ty, 50%)) scale(1);
+	}
+}
+
+.khstt__btn:focus-visible ~ .khstt__label {
+	opacity: 1;
+	transform: translate(var(--khstt-lbl-tx, 0), var(--khstt-lbl-ty, 50%)) scale(1);
+}
+
+/* A control that is away, peeking, or standing down has nothing to label. */
+.khstt[data-visible="0"] .khstt__label,
+.khstt[data-visible="peek"] .khstt__label {
+	opacity: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   Live region for Smart Return announcements
+   -------------------------------------------------------------------------- */
+
+.khstt__status {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   Suppressed third-party controls
+
+   Force Replace hides a competing back-to-top control by putting an attribute
+   on it; this is the only rule that acts on that attribute. Nothing is removed
+   from the page, no theme script is touched, and clearing the setting brings
+   the control back on the next page load. The selector is a fixed literal - no
+   part of it comes from a setting - so no value a site owner can type reaches
+   this stylesheet.
+   -------------------------------------------------------------------------- */
+
+[data-khstt-suppressed] {
+	display: none !important;
+}
+
+/* -----------------------------------------------------------------------------
+   Reduced motion and print
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	.khstt,
+	.khstt__btn {
+		transition: none;
+	}
+
+	.khstt[data-visible="0"] .khstt__btn {
+		transform: none;
+	}
+
+	.khstt[data-visible="peek"] .khstt__btn {
+		transform: none;
+	}
+
+	/* The press is spatial, so it does not run at all. The action itself is
+	   untouched: only the feedback goes away. */
+	.khstt__icon,
+	.khstt__pct,
+	.khstt__label {
+		transition: none;
+	}
+
+	.khstt[data-press="1"] .khstt__icon,
+	.khstt[data-press="1"] .khstt__pct {
+		transform: none;
+	}
+
+	/* Idle Fade is a change of opacity, not of place, so it still happens -
+	   instantly rather than over a fifth of a second, because .khstt__btn has
+	   already had its transition removed above. The label likewise appears and
+	   disappears without the scale. */
+	.khstt__label,
+	.khstt__btn:focus-visible ~ .khstt__label {
+		transform: translate(var(--khstt-lbl-tx, 0), var(--khstt-lbl-ty, 50%));
+	}
+}
+
+@media print {
+	.khstt {
+		display: none;
+	}
+}

@@ -1,0 +1,655 @@
+/* =============================================================================
+   KineticHub Scroll to Top - Playground demo styles
+
+   Loaded only on the demo page, by the khstt-demo mu-plugin that the Playground
+   blueprint writes. Every selector is namespaced .khsttd- so nothing here can
+   reach the plugin's own frontend control (.khstt-), the admin screen, or the
+   theme. This file never ships inside the plugin.
+
+   The page is deliberately light. The control is a saturated indigo with a cyan
+   progress ring, and it has to stay legible from the hero to the footer - a
+   dark page would have flattened it into the background for most of the scroll.
+   The hero and the footer are the two dark bands, so the control is also seen
+   against a dark ground twice on the way past.
+   ============================================================================= */
+
+.khsttd {
+	--khsttd-ink: #0f172a;
+	--khsttd-ink-2: #334155;
+	--khsttd-muted: #64748b;
+
+	--khsttd-page: #f6f7fb;
+	--khsttd-panel: #ffffff;
+	--khsttd-dark: #0b1020;
+	--khsttd-dark-2: #151b35;
+
+	--khsttd-indigo: #4f46e5;
+	--khsttd-indigo-soft: #eef2ff;
+	--khsttd-cyan: #22d3ee;
+	--khsttd-violet: #8b5cf6;
+
+	--khsttd-border: #e2e8f0;
+	--khsttd-border-dark: rgba(148, 180, 255, .18);
+
+	--khsttd-r-lg: 20px;
+	--khsttd-r-md: 14px;
+	--khsttd-r-sm: 9px;
+
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	color: var(--khsttd-ink);
+	background: var(--khsttd-page);
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	font-size: 17px;
+	line-height: 1.65;
+	-webkit-font-smoothing: antialiased;
+	overflow-x: hidden;
+}
+
+.khsttd *,
+.khsttd *::before,
+.khsttd *::after {
+	box-sizing: border-box;
+}
+
+.khsttd img {
+	max-width: 100%;
+	height: auto;
+}
+
+.khsttd-main {
+	display: block;
+}
+
+.khsttd-shell {
+	width: 100%;
+	max-width: 820px;
+	margin: 0 auto;
+	padding: 0 24px;
+}
+
+/* -----------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+
+.khsttd-hero {
+	position: relative;
+	padding: 108px 0 96px;
+	color: #f7f9ff;
+	background:
+		radial-gradient(circle at 18% 8%, rgba(79, 70, 229, .38), transparent 42%),
+		radial-gradient(circle at 84% 22%, rgba(34, 211, 238, .22), transparent 40%),
+		linear-gradient(160deg, #0b1020, #151b35 55%, #0b1020);
+	overflow: hidden;
+}
+
+.khsttd-hero__eyebrow {
+	margin: 0 0 14px;
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: .18em;
+	text-transform: uppercase;
+	color: var(--khsttd-cyan);
+}
+
+.khsttd-hero__title {
+	margin: 0 0 20px;
+	font-size: clamp(38px, 7vw, 62px);
+	line-height: 1.05;
+	letter-spacing: -.03em;
+	font-weight: 800;
+	background: linear-gradient(96deg, #ffffff 20%, #c7d2fe 60%, #67e8f9);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+}
+
+.khsttd-hero__sub {
+	margin: 0 0 26px;
+	max-width: 620px;
+	font-size: clamp(17px, 2.4vw, 21px);
+	line-height: 1.6;
+	color: #cbd5f5;
+}
+
+.khsttd-hero__note {
+	display: inline-block;
+	margin: 0;
+	padding: 11px 17px;
+	font-size: 14.5px;
+	line-height: 1.55;
+	color: #dbe4ff;
+	background: rgba(99, 102, 241, .16);
+	border: 1px solid var(--khsttd-border-dark);
+	border-radius: var(--khsttd-r-md);
+}
+
+.khsttd-hero__cue {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	margin-top: 54px;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: .14em;
+	text-transform: uppercase;
+	color: #93a4cc;
+}
+
+.khsttd-hero__cue-line {
+	position: relative;
+	flex: 1;
+	max-width: 220px;
+	height: 1px;
+	background: linear-gradient(90deg, rgba(148, 180, 255, .5), transparent);
+}
+
+.khsttd-hero__cue-line::after {
+	content: "";
+	position: absolute;
+	top: -2px;
+	left: 0;
+	width: 42px;
+	height: 5px;
+	border-radius: 3px;
+	background: linear-gradient(90deg, var(--khsttd-cyan), transparent);
+	animation: khsttd-cue 2.4s ease-in-out infinite;
+}
+
+@keyframes khsttd-cue {
+	0%   { transform: translateX(0); opacity: 0; }
+	30%  { opacity: 1; }
+	100% { transform: translateX(170px); opacity: 0; }
+}
+
+/* -----------------------------------------------------------------------------
+   Guidance
+   -------------------------------------------------------------------------- */
+
+.khsttd-guide {
+	padding: 46px 0;
+	background: var(--khsttd-panel);
+	border-bottom: 1px solid var(--khsttd-border);
+}
+
+.khsttd-guide__title {
+	margin: 0 0 8px;
+	font-size: 22px;
+	letter-spacing: -.015em;
+}
+
+.khsttd-guide__note {
+	margin: 0 0 22px;
+	font-size: 15px;
+	color: var(--khsttd-muted);
+}
+
+.khsttd-steps {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: grid;
+	gap: 10px;
+}
+
+.khsttd-step {
+	display: flex;
+	align-items: flex-start;
+	gap: 13px;
+	padding: 13px 16px;
+	font-size: 15.5px;
+	line-height: 1.55;
+	color: var(--khsttd-ink-2);
+	background: var(--khsttd-page);
+	border: 1px solid var(--khsttd-border);
+	border-radius: var(--khsttd-r-md);
+	transition: background .25s ease, border-color .25s ease, color .25s ease;
+}
+
+.khsttd-step strong {
+	color: var(--khsttd-ink);
+}
+
+.khsttd-step__tick {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	margin-top: 1px;
+	border-radius: 50%;
+	color: transparent;
+	background: #e2e8f0;
+	border: 1px solid var(--khsttd-border);
+	transition: background .25s ease, color .25s ease, transform .25s ease;
+}
+
+.khsttd-step__tick svg {
+	width: 14px;
+	height: 14px;
+}
+
+.khsttd-step.is-done {
+	color: var(--khsttd-ink);
+	background: var(--khsttd-indigo-soft);
+	border-color: #c7d2fe;
+}
+
+.khsttd-step.is-done .khsttd-step__tick {
+	color: #ffffff;
+	background: var(--khsttd-indigo);
+	border-color: var(--khsttd-indigo);
+	transform: scale(1.06);
+}
+
+.khsttd-guide__hint {
+	margin: 18px 0 0;
+	min-height: 22px;
+	font-size: 14.5px;
+	font-weight: 600;
+	color: var(--khsttd-indigo);
+}
+
+/* -----------------------------------------------------------------------------
+   Sections
+   -------------------------------------------------------------------------- */
+
+.khsttd-section {
+	padding: 76px 0;
+	border-bottom: 1px solid var(--khsttd-border);
+}
+
+.khsttd-section:nth-of-type(even) {
+	background: var(--khsttd-panel);
+}
+
+.khsttd-kicker {
+	margin: 0 0 10px;
+	font-size: 12.5px;
+	font-weight: 700;
+	letter-spacing: .16em;
+	text-transform: uppercase;
+	color: var(--khsttd-indigo);
+}
+
+.khsttd-h2 {
+	margin: 0 0 16px;
+	font-size: clamp(26px, 4vw, 36px);
+	line-height: 1.2;
+	letter-spacing: -.025em;
+	font-weight: 750;
+}
+
+.khsttd-lead {
+	margin: 0 0 30px;
+	max-width: 640px;
+	font-size: 18.5px;
+	line-height: 1.6;
+	color: var(--khsttd-ink-2);
+}
+
+.khsttd-p {
+	margin: 0 0 20px;
+	max-width: 660px;
+	color: var(--khsttd-ink-2);
+}
+
+.khsttd-p--tight {
+	margin-top: 26px;
+	margin-bottom: 0;
+}
+
+.khsttd-prose .khsttd-p:last-child {
+	margin-bottom: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   Cards and rows
+   -------------------------------------------------------------------------- */
+
+.khsttd-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(232px, 1fr));
+	gap: 14px;
+	margin-top: 32px;
+}
+
+.khsttd-card {
+	padding: 20px 20px 22px;
+	background: var(--khsttd-page);
+	border: 1px solid var(--khsttd-border);
+	border-radius: var(--khsttd-r-lg);
+}
+
+.khsttd-section:nth-of-type(even) .khsttd-card {
+	background: var(--khsttd-panel);
+}
+
+.khsttd-card__icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	margin-bottom: 14px;
+	color: var(--khsttd-indigo);
+	background: var(--khsttd-indigo-soft);
+	border-radius: 11px;
+}
+
+.khsttd-card__icon svg {
+	width: 20px;
+	height: 20px;
+}
+
+.khsttd-card__title {
+	margin: 0 0 7px;
+	font-size: 16.5px;
+	font-weight: 700;
+	letter-spacing: -.01em;
+}
+
+.khsttd-card__body {
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.58;
+	color: var(--khsttd-muted);
+}
+
+.khsttd-rows {
+	display: grid;
+	gap: 14px;
+	margin-top: 6px;
+}
+
+.khsttd-row {
+	padding: 22px 24px;
+	background: var(--khsttd-page);
+	border: 1px solid var(--khsttd-border);
+	border-left: 3px solid var(--khsttd-indigo);
+	border-radius: var(--khsttd-r-md);
+}
+
+.khsttd-section:nth-of-type(even) .khsttd-row {
+	background: var(--khsttd-panel);
+}
+
+.khsttd-row__title {
+	margin: 0 0 8px;
+	font-size: 17.5px;
+	font-weight: 700;
+	letter-spacing: -.012em;
+}
+
+.khsttd-row__body {
+	margin: 0;
+	font-size: 15.5px;
+	line-height: 1.62;
+	color: var(--khsttd-ink-2);
+}
+
+/* -----------------------------------------------------------------------------
+   Variation picker
+   -------------------------------------------------------------------------- */
+
+.khsttd-looks {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(238px, 1fr));
+	gap: 12px;
+	margin-top: 6px;
+}
+
+.khsttd-look {
+	display: block;
+	padding: 17px 18px;
+	text-decoration: none;
+	color: inherit;
+	background: var(--khsttd-page);
+	border: 1.5px solid var(--khsttd-border);
+	border-radius: var(--khsttd-r-md);
+	transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+
+.khsttd-section:nth-of-type(even) .khsttd-look {
+	background: var(--khsttd-panel);
+}
+
+.khsttd-look:hover,
+.khsttd-look:focus-visible {
+	border-color: #a5b4fc;
+	transform: translateY(-2px);
+}
+
+.khsttd-look:focus-visible {
+	outline: 2px solid var(--khsttd-indigo);
+	outline-offset: 3px;
+}
+
+.khsttd-look.is-active {
+	background: var(--khsttd-indigo-soft);
+	border-color: var(--khsttd-indigo);
+}
+
+.khsttd-look__name {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+	font-size: 16px;
+	font-weight: 700;
+	letter-spacing: -.01em;
+}
+
+.khsttd-look__tick {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	color: transparent;
+	background: #e2e8f0;
+	transition: background .2s ease, color .2s ease;
+}
+
+.khsttd-look__tick svg {
+	width: 12px;
+	height: 12px;
+}
+
+.khsttd-look.is-active .khsttd-look__tick {
+	color: #ffffff;
+	background: var(--khsttd-indigo);
+}
+
+.khsttd-look__note {
+	display: block;
+	margin-top: 6px;
+	font-size: 14.5px;
+	line-height: 1.5;
+	color: var(--khsttd-muted);
+}
+
+/* -----------------------------------------------------------------------------
+   Close and footer
+   -------------------------------------------------------------------------- */
+
+.khsttd-close {
+	padding: 86px 0 78px;
+	text-align: center;
+	background: var(--khsttd-panel);
+	border-bottom: 1px solid var(--khsttd-border);
+}
+
+.khsttd-close .khsttd-lead {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.khsttd-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 11px;
+	justify-content: center;
+	margin-top: 4px;
+}
+
+.khsttd-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 20px;
+	font-size: 15.5px;
+	font-weight: 650;
+	text-decoration: none;
+	color: var(--khsttd-ink);
+	background: var(--khsttd-page);
+	border: 1.5px solid var(--khsttd-border);
+	border-radius: 999px;
+	transition: border-color .2s ease, background .2s ease, color .2s ease;
+}
+
+.khsttd-btn svg {
+	width: 17px;
+	height: 17px;
+}
+
+.khsttd-btn:hover,
+.khsttd-btn:focus-visible {
+	border-color: #a5b4fc;
+	background: var(--khsttd-indigo-soft);
+}
+
+.khsttd-btn:focus-visible {
+	outline: 2px solid var(--khsttd-indigo);
+	outline-offset: 3px;
+}
+
+.khsttd-btn--primary {
+	color: #ffffff;
+	background: var(--khsttd-indigo);
+	border-color: var(--khsttd-indigo);
+}
+
+.khsttd-btn--primary:hover,
+.khsttd-btn--primary:focus-visible {
+	color: #ffffff;
+	background: #4338ca;
+	border-color: #4338ca;
+}
+
+/*
+ * A real <footer> element, and the one Smart Footer Dock finds. The generous
+ * height is not styling for its own sake: the dock only engages once the footer
+ * is genuinely in the viewport, so a thin strip would make the behaviour hard
+ * to observe.
+ */
+.khsttd-foot {
+	padding: 74px 0 88px;
+	color: #b8c6ee;
+	background:
+		radial-gradient(circle at 80% 0%, rgba(79, 70, 229, .3), transparent 46%),
+		linear-gradient(180deg, #0b1020, #151b35);
+}
+
+.khsttd-foot__line {
+	margin: 0 0 10px;
+	font-size: 17px;
+	font-weight: 650;
+	color: #eef2ff;
+}
+
+.khsttd-foot__small {
+	margin: 0;
+	max-width: 560px;
+	font-size: 14.5px;
+	line-height: 1.6;
+	color: #8ea0cc;
+}
+
+/* -----------------------------------------------------------------------------
+   Section reveal
+
+   Written by demo.js. The no-JS state is the visible one, so a blocked or
+   failed script leaves a perfectly readable page rather than an empty one.
+   -------------------------------------------------------------------------- */
+
+.khsttd-js [data-khsttd-reveal] {
+	opacity: 0;
+	transform: translateY(16px);
+	transition: opacity .55s ease, transform .55s ease;
+}
+
+.khsttd-js [data-khsttd-reveal].is-in {
+	opacity: 1;
+	transform: none;
+}
+
+/* -----------------------------------------------------------------------------
+   Reduced motion
+
+   The plugin honours prefers-reduced-motion for its own control; the demo page
+   around it has to do the same, or the page would be contradicting the claim
+   it is making three sections further down.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	.khsttd-hero__cue-line::after {
+		animation: none;
+		opacity: .6;
+		transform: translateX(60px);
+	}
+
+	.khsttd-js [data-khsttd-reveal] {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+
+	.khsttd-look,
+	.khsttd-step,
+	.khsttd-step__tick,
+	.khsttd-btn {
+		transition: none;
+	}
+
+	.khsttd-look:hover,
+	.khsttd-look:focus-visible {
+		transform: none;
+	}
+}
+
+/* -----------------------------------------------------------------------------
+   Narrow screens
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+	.khsttd {
+		font-size: 16px;
+	}
+
+	.khsttd-shell {
+		padding: 0 18px;
+	}
+
+	.khsttd-hero {
+		padding: 78px 0 66px;
+	}
+
+	.khsttd-section {
+		padding: 56px 0;
+	}
+
+	.khsttd-close {
+		padding: 62px 0 58px;
+	}
+
+	.khsttd-foot {
+		padding: 56px 0 96px;
+	}
+
+	.khsttd-row {
+		padding: 18px 18px;
+	}
+}

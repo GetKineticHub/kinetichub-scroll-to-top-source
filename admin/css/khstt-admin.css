@@ -1,0 +1,2590 @@
+/* =============================================================================
+   KineticHub Scroll to Top - Admin Styles
+
+   Every selector is namespaced under .khstt- and every rule is scoped to the
+   plugin's own settings screen, which is the only place this file is loaded.
+   No external fonts: the stack below is the WordPress admin's own.
+   ============================================================================= */
+
+.khstt-wrap {
+	/* ---- KineticHub design tokens ----
+	   The palette the whole screen is built from. They are declared on the
+	   plugin's own .wrap element rather than on :root, so nothing outside this
+	   screen can ever see them and wp-admin is untouched everywhere else.
+
+	   Scroll to Top sits in the same KineticHub family as Page Loader and
+	   shares its surfaces, spacing and radii. What it does not share is the
+	   accent: Page Loader leads on cyan, this screen leads on violet, which is
+	   the colour of the control it configures. Same system, different voice. */
+	--khstt-ui-bg: #050b14;
+	--khstt-ui-bg-2: #07111f;
+	--khstt-ui-panel: #081827;
+	--khstt-ui-panel-2: #0b1f34;
+	--khstt-ui-sunken: #06111f;
+
+	/* Two violets, and the split between them is deliberate. #8b5cf6 is a
+	   3.9:1 against the card, which is enough for a border, a fill or an icon
+	   but not for text; #a78bfa is 6.1:1 and carries every accented word on
+	   the screen. Nothing that has to be read is ever painted in the first. */
+	--khstt-violet: #8b5cf6;
+	--khstt-violet-lit: #a78bfa;
+	--khstt-purple: #a855f7;
+	--khstt-blue: #2f7dff;
+	--khstt-cyan: #00d5ff;
+
+	--khstt-green: #28d77b;
+	--khstt-amber: #fbbf24;
+	--khstt-red: #ff8f99;
+
+	--khstt-text: #f8fbff;
+	--khstt-text-soft: #d8e6f7;
+	--khstt-muted: #93a7c2;
+	--khstt-muted-2: #6f8299;
+
+	--khstt-border: rgba(150, 170, 255, .18);
+	--khstt-border-soft: rgba(150, 170, 255, .10);
+	--khstt-border-strong: rgba(139, 92, 246, .38);
+
+	/* The Save button, the checked switch and the selected-card edge all draw
+	   from one ramp. Its stops are darker than the hue they suggest because
+	   white sits on top of it: the lightest point of this gradient is 5.2:1
+	   against white, so the button label clears AA at its normal weight. */
+	--khstt-ramp: linear-gradient(135deg, #2563eb 0%, #6d28d9 55%, #7c3aed 100%);
+
+	--khstt-radius-lg: 20px;
+	--khstt-radius-md: 14px;
+	--khstt-radius-sm: 10px;
+
+	/* ---- Legacy aliases ----
+	   The rest of this file was written against these names while the screen
+	   was light. Repointing them at the dark palette here means every existing
+	   rule follows the new theme without being rewritten, and there is exactly
+	   one place to adjust a colour. The handful of rules that hardcoded a light
+	   value rather than a token are corrected in the dark UI section at the
+	   foot of this file. */
+	--khstt-a-bg: var(--khstt-ui-panel);
+	--khstt-a-bg-sunken: rgba(5, 11, 20, .68);
+	--khstt-a-line: var(--khstt-border);
+	--khstt-a-line-soft: var(--khstt-border-soft);
+	--khstt-a-text: var(--khstt-text);
+	--khstt-a-muted: var(--khstt-muted);
+	--khstt-a-accent: var(--khstt-violet-lit);
+	--khstt-a-accent-soft: rgba(139, 92, 246, .12);
+	--khstt-a-accent-line: rgba(139, 92, 246, .36);
+	--khstt-a-radius: var(--khstt-radius-md);
+	--khstt-a-radius-sm: var(--khstt-radius-sm);
+	--khstt-a-shadow: 0 16px 38px rgba(0, 0, 0, .24);
+
+	/* ---- Page shell ----
+	   The plugin's content sits in one dark rounded panel. The hero and the tab
+	   strip run edge to edge inside it, so their own corner radii finish the
+	   shell rather than the shell clipping them - there is deliberately no
+	   overflow:hidden here, which is what keeps the sticky preview column and
+	   the sticky action bar working. */
+	max-width: 1400px;
+	margin: 16px 20px 34px 2px;
+	padding: 0;
+	background:
+		radial-gradient(circle at 16% 0%, rgba(139, 92, 246, .17), transparent 36%),
+		radial-gradient(circle at 84% 6%, rgba(47, 125, 255, .15), transparent 36%),
+		linear-gradient(145deg, #050b14 0%, #07111f 45%, #050b14 100%);
+	border: 1px solid var(--khstt-border);
+	border-radius: var(--khstt-radius-lg);
+	box-shadow: 0 24px 80px rgba(0, 0, 0, .38);
+	color: var(--khstt-a-text);
+	font-size: 13px;
+	line-height: 1.5;
+
+	/* Makes the browser render native widgets - select popups, the colour
+	   picker chrome, scrollbars - in their dark variants, so no UA-drawn
+	   control flashes white inside the panel. Scoped to this element. */
+	color-scheme: dark;
+}
+
+.khstt-wrap *,
+.khstt-wrap *::before,
+.khstt-wrap *::after {
+	box-sizing: border-box;
+}
+
+/* Utility: present in the accessibility tree but not on screen. */
+.khstt-offscreen,
+.khstt-offscreen-form {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* -----------------------------------------------------------------------------
+   Hero
+   -------------------------------------------------------------------------- */
+
+.khstt-hero {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding: 18px 22px;
+	margin: 16px 0 20px;
+	background: var(--khstt-a-bg);
+	border: 1px solid var(--khstt-a-line);
+	border-radius: var(--khstt-a-radius);
+	box-shadow: var(--khstt-a-shadow);
+}
+
+.khstt-hero__mark {
+	flex: 0 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	overflow: hidden;
+	border-radius: 50%;
+	color: var(--khstt-a-accent);
+}
+
+.khstt-hero__logo {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 50%;
+}
+
+.khstt-hero__text {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.khstt-hero__title {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 0 0 3px;
+	font-size: 17px;
+	font-weight: 600;
+	line-height: 1.3;
+}
+
+.khstt-hero__version {
+	padding: 2px 7px;
+	font-size: 11px;
+	font-weight: 500;
+	color: var(--khstt-a-muted);
+	background: var(--khstt-a-bg-sunken);
+	border: 1px solid var(--khstt-a-line);
+	border-radius: 20px;
+}
+
+.khstt-hero__subtitle {
+	margin: 0;
+	max-width: 62ch;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-hero__switch {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex: 0 0 auto;
+	padding-left: 18px;
+	border-left: 1px solid var(--khstt-a-line-soft);
+}
+
+.khstt-hero__switch-label {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	text-align: right;
+	cursor: pointer;
+}
+
+.khstt-hero__switch-title {
+	font-weight: 600;
+}
+
+.khstt-hero__switch-state {
+	font-size: 12px;
+	color: var(--khstt-a-muted);
+}
+
+/* -----------------------------------------------------------------------------
+   Layout
+   -------------------------------------------------------------------------- */
+
+.khstt-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) 340px;
+	gap: 22px;
+	align-items: start;
+}
+
+.khstt-main {
+	min-width: 0;
+}
+
+.khstt-side {
+	position: sticky;
+	top: 52px;
+	min-width: 0;
+}
+
+@media screen and (max-width: 1280px) {
+	.khstt-layout {
+		grid-template-columns: minmax(0, 1fr);
+	}
+
+	.khstt-side {
+		position: static;
+		max-width: 420px;
+	}
+}
+
+/* -----------------------------------------------------------------------------
+   Tabs
+   -------------------------------------------------------------------------- */
+
+.khstt-tabs {
+	display: flex;
+	gap: 4px;
+	padding: 4px;
+	margin-bottom: 18px;
+	background: var(--khstt-a-bg);
+	border: 1px solid var(--khstt-a-line);
+	border-radius: var(--khstt-a-radius);
+	box-shadow: var(--khstt-a-shadow);
+	overflow-x: auto;
+}
+
+.khstt-tab {
+	flex: 1 1 auto;
+	padding: 9px 14px;
+	font: inherit;
+	font-weight: 500;
+	white-space: nowrap;
+	color: var(--khstt-a-muted);
+	background: transparent;
+	border: 0;
+	border-radius: var(--khstt-a-radius-sm);
+	cursor: pointer;
+	transition: background-color .12s ease, color .12s ease;
+}
+
+.khstt-tab:hover {
+	color: var(--khstt-a-text);
+	background: var(--khstt-a-bg-sunken);
+}
+
+.khstt-tab.is-active {
+	color: var(--khstt-a-accent);
+	background: var(--khstt-a-accent-soft);
+	box-shadow: inset 0 0 0 1px var(--khstt-a-accent-line);
+}
+
+.khstt-tab:focus-visible {
+	outline: 2px solid var(--khstt-a-accent);
+	outline-offset: -1px;
+}
+
+.khstt-panel[data-khstt-inactive] {
+	display: none;
+}
+
+/* -----------------------------------------------------------------------------
+   Cards and fields
+   -------------------------------------------------------------------------- */
+
+.khstt-card {
+	margin-bottom: 16px;
+	background: var(--khstt-a-bg);
+	border: 1px solid var(--khstt-a-line);
+	border-radius: var(--khstt-a-radius);
+	box-shadow: var(--khstt-a-shadow);
+}
+
+/* A section heading and the labels beneath it were both 13px and only a
+   weight apart, so a card read as a flat list of equals. The heading now
+   carries a clear size and weight step, a little more room, and a faint tint
+   behind it, which separates "what this group is" from "what this setting is"
+   without changing the layout or the visual language. */
+.khstt-card__head {
+	padding: 16px 20px 14px;
+	background: var(--khstt-a-bg-sunken);
+	border-bottom: 1px solid var(--khstt-a-line-soft);
+}
+
+.khstt-card__title {
+	margin: 0;
+	font-size: 15px;
+	font-weight: 650;
+	line-height: 1.35;
+	letter-spacing: -.005em;
+	color: var(--khstt-a-text);
+}
+
+.khstt-card__note {
+	margin: 5px 0 0;
+	max-width: 70ch;
+	font-size: 12.5px;
+	line-height: 1.55;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-card__body {
+	padding: 4px 20px 16px;
+}
+
+.khstt-field {
+	display: flex;
+	align-items: flex-start;
+	gap: 20px;
+	padding: 14px 0;
+	margin: 0;
+	border: 0;
+	border-bottom: 1px solid var(--khstt-a-line-soft);
+}
+
+.khstt-field:last-child {
+	border-bottom: 0;
+	padding-bottom: 2px;
+}
+
+.khstt-field[hidden] {
+	display: none;
+}
+
+.khstt-field--stack {
+	flex-direction: column;
+	gap: 10px;
+}
+
+.khstt-field__head {
+	flex: 0 0 210px;
+	padding: 0;
+	min-width: 0;
+}
+
+.khstt-field--stack .khstt-field__head {
+	flex: 1 1 auto;
+	width: 100%;
+}
+
+.khstt-field__label {
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+	padding: 0;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.4;
+	color: var(--khstt-a-text);
+}
+
+.khstt-field__help {
+	margin: 4px 0 0;
+	max-width: 66ch;
+	font-size: 12px;
+	line-height: 1.5;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-field__control {
+	flex: 1 1 auto;
+	min-width: 0;
+	padding-top: 1px;
+}
+
+.khstt-note {
+	margin: 12px 0 4px;
+	max-width: 70ch;
+	font-size: 12px;
+	color: var(--khstt-a-muted);
+}
+
+/* -----------------------------------------------------------------------------
+   Compatibility status
+   -------------------------------------------------------------------------- */
+
+.khstt-status {
+	margin: 14px 0 2px;
+	padding: 14px 16px;
+	background: var(--khstt-a-bg-sunken);
+	border: 1px solid var(--khstt-a-line);
+	border-radius: var(--khstt-a-radius-sm);
+}
+
+.khstt-status__title {
+	margin: 0 0 10px;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: .02em;
+	text-transform: uppercase;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-status__row {
+	display: flex;
+	align-items: baseline;
+	gap: 12px;
+	padding: 6px 0;
+	border-bottom: 1px solid var(--khstt-a-line-soft);
+}
+
+.khstt-status__row:last-of-type {
+	border-bottom: 0;
+}
+
+.khstt-status__label {
+	flex: 0 0 170px;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-status__value {
+	flex: 1 1 auto;
+	min-width: 0;
+	font-weight: 500;
+	overflow-wrap: anywhere;
+}
+
+/* The dot carries the same meaning as the wording next to it, so it is a
+   decoration rather than the message. Nothing here is colour-only. */
+.khstt-status__value::before {
+	content: "";
+	display: inline-block;
+	width: 7px;
+	height: 7px;
+	margin-right: 7px;
+	border-radius: 50%;
+	vertical-align: middle;
+	background: currentColor;
+	opacity: .8;
+}
+
+.khstt-status__value--positive {
+	color: #1a7f37;
+}
+
+.khstt-status__value--warning {
+	color: #8a5a00;
+}
+
+.khstt-status__value--neutral {
+	color: var(--khstt-a-muted);
+}
+
+/* Reserved for genuine failures. A second back-to-top control existing is a
+   warning, never this. */
+.khstt-status__value--error {
+	color: #b32d2e;
+}
+
+.khstt-status__note {
+	margin: 10px 0 0;
+	max-width: 70ch;
+	font-size: 12px;
+	line-height: 1.55;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-status__actions {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	margin: 10px 0 0;
+}
+
+.khstt-status__visit {
+	font-size: 12px;
+}
+
+.khstt-status__hint {
+	flex: 1 1 240px;
+	min-width: 0;
+	font-size: 12px;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-status__list {
+	margin: 8px 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+.khstt-status__list li {
+	margin: 0 0 4px;
+	font-size: 12px;
+}
+
+.khstt-status__list code {
+	padding: 1px 5px;
+	font-size: 11px;
+	background: var(--khstt-a-bg);
+	border: 1px solid var(--khstt-a-line);
+	border-radius: 3px;
+}
+
+.khstt-status__via {
+	margin-left: 6px;
+	color: var(--khstt-a-muted);
+}
+
+/* -----------------------------------------------------------------------------
+   Inline alerts
+   -------------------------------------------------------------------------- */
+
+.khstt-alert {
+	margin: 12px 0 0;
+	padding: 10px 12px;
+	border: 1px solid var(--khstt-a-line);
+	border-left-width: 3px;
+	border-radius: var(--khstt-a-radius-sm);
+	background: var(--khstt-a-bg);
+}
+
+.khstt-alert p {
+	margin: 0;
+	max-width: 70ch;
+	font-size: 12px;
+	line-height: 1.55;
+}
+
+.khstt-alert p + p {
+	margin-top: 6px;
+}
+
+.khstt-alert--notice {
+	border-left-color: var(--khstt-a-accent);
+	background: var(--khstt-a-accent-soft);
+}
+
+.khstt-alert--warning {
+	border-left-color: #b26900;
+	background: #fdf6e7;
+}
+
+/* -----------------------------------------------------------------------------
+   Smart badge
+   -------------------------------------------------------------------------- */
+
+.khstt-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 3px;
+	padding: 1px 7px 1px 5px;
+	font-size: 10px;
+	font-weight: 600;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+	color: var(--khstt-a-accent);
+	background: var(--khstt-a-accent-soft);
+	border: 1px solid var(--khstt-a-accent-line);
+	border-radius: 20px;
+	white-space: nowrap;
+}
+
+.khstt-badge__icon {
+	width: 11px;
+	height: 11px;
+}
+
+/* The Advanced badge shares the badge shape but not its enthusiasm: it marks a
+   setting that needs testing on the live site, not one to reach for. */
+.khstt-badge--caution {
+	padding: 1px 7px;
+	color: #8a5a00;
+	background: #fdf6e7;
+	border-color: #f0dcb4;
+}
+
+/* -----------------------------------------------------------------------------
+   Switch
+   -------------------------------------------------------------------------- */
+
+.khstt-switch {
+	position: relative;
+	display: inline-block;
+	width: 40px;
+	height: 22px;
+	flex: 0 0 auto;
+	vertical-align: middle;
+	cursor: pointer;
+}
+
+.khstt-switch--large {
+	width: 48px;
+	height: 26px;
+}
+
+/* WordPress core styles input[type="checkbox"] with a fixed 1rem box and a
+   negative top margin at specificity (0,1,1), which outranks a lone class and
+   left the transparent checkbox covering only part of the switch it stands in
+   for - the right of the track was dead to clicks. Matching the element as
+   well as the class wins the cascade back. The negative inset then grows the
+   hit area to a touch-friendly height without changing the painted size. */
+.khstt-switch input.khstt-switch__input {
+	position: absolute;
+	inset: -11px -4px;
+	width: auto;
+	height: auto;
+	min-width: 0;
+	margin: 0;
+	border: 0;
+	background: none;
+	box-shadow: none;
+	appearance: none;
+	-webkit-appearance: none;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.khstt-switch__track {
+	position: absolute;
+	inset: 0;
+	display: block;
+	background: #c3c4c7;
+	border-radius: 999px;
+	transition: background-color .15s ease;
+	pointer-events: none;
+}
+
+.khstt-switch__thumb {
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 16px;
+	height: 16px;
+	background: #fff;
+	border-radius: 50%;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+	transition: transform .15s ease;
+}
+
+.khstt-switch--large .khstt-switch__thumb {
+	width: 20px;
+	height: 20px;
+}
+
+.khstt-switch__input:checked ~ .khstt-switch__track {
+	background: var(--khstt-a-accent);
+}
+
+.khstt-switch__input:checked ~ .khstt-switch__track .khstt-switch__thumb {
+	transform: translateX(18px);
+}
+
+.khstt-switch--large .khstt-switch__input:checked ~ .khstt-switch__track .khstt-switch__thumb {
+	transform: translateX(22px);
+}
+
+.khstt-switch__input:focus-visible ~ .khstt-switch__track {
+	outline: 2px solid var(--khstt-a-accent);
+	outline-offset: 2px;
+}
+
+/* -----------------------------------------------------------------------------
+   Number, select, text, color
+   -------------------------------------------------------------------------- */
+
+.khstt-number {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	max-width: 340px;
+}
+
+.khstt-number__range {
+	flex: 1 1 auto;
+	min-width: 90px;
+	max-width: 210px;
+	height: 4px;
+	margin: 0;
+	padding: 0;
+	background: var(--khstt-a-line);
+	border-radius: 999px;
+	appearance: none;
+	cursor: pointer;
+}
+
+.khstt-number__range::-webkit-slider-thumb {
+	appearance: none;
+	width: 15px;
+	height: 15px;
+	background: var(--khstt-a-accent);
+	border: 2px solid #fff;
+	border-radius: 50%;
+	box-shadow: 0 0 0 1px var(--khstt-a-accent);
+	cursor: pointer;
+}
+
+.khstt-number__range::-moz-range-thumb {
+	width: 13px;
+	height: 13px;
+	background: var(--khstt-a-accent);
+	border: 2px solid #fff;
+	border-radius: 50%;
+	box-shadow: 0 0 0 1px var(--khstt-a-accent);
+	cursor: pointer;
+}
+
+.khstt-number__entry {
+	position: relative;
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+}
+
+.khstt-number__input {
+	width: 84px;
+	padding: 4px 30px 4px 8px;
+	font: inherit;
+	color: var(--khstt-a-text);
+	background: var(--khstt-a-bg);
+	border: 1px solid #8c8f94;
+	border-radius: var(--khstt-a-radius-sm);
+}
+
+.khstt-number__unit {
+	position: absolute;
+	right: 9px;
+	font-size: 11px;
+	color: var(--khstt-a-muted);
+	pointer-events: none;
+}
+
+.khstt-select,
+.khstt-text {
+	max-width: 340px;
+	width: 100%;
+	padding: 5px 8px;
+	font: inherit;
+	color: var(--khstt-a-text);
+	background: var(--khstt-a-bg);
+	border: 1px solid #8c8f94;
+	border-radius: var(--khstt-a-radius-sm);
+}
+
+.khstt-select {
+	min-width: 200px;
+}
+
+.khstt-number__input:focus-visible,
+.khstt-select:focus-visible,
+.khstt-text:focus-visible,
+.khstt-number__range:focus-visible {
+	outline: 2px solid var(--khstt-a-accent);
+	outline-offset: 1px;
+	border-color: var(--khstt-a-accent);
+}
+
+.khstt-color {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.khstt-color__swatch {
+	width: 38px;
+	height: 30px;
+	padding: 2px;
+	background: var(--khstt-a-bg);
+	border: 1px solid #8c8f94;
+	border-radius: var(--khstt-a-radius-sm);
+	cursor: pointer;
+}
+
+.khstt-color__hex {
+	width: 96px;
+	padding: 4px 8px;
+	font: inherit;
+	font-family: Consolas, Monaco, monospace;
+	font-size: 12px;
+	text-transform: lowercase;
+	color: var(--khstt-a-text);
+	border: 1px solid #8c8f94;
+	border-radius: var(--khstt-a-radius-sm);
+}
+
+.khstt-color__swatch:focus-visible,
+.khstt-color__hex:focus-visible {
+	outline: 2px solid var(--khstt-a-accent);
+	outline-offset: 1px;
+}
+
+/* -----------------------------------------------------------------------------
+   Selectable cards
+   -------------------------------------------------------------------------- */
+
+.khstt-cards {
+	display: grid;
+	gap: 8px;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+.khstt-cards--tiles {
+	grid-template-columns: repeat(auto-fit, minmax(104px, 1fr));
+	max-width: 520px;
+}
+
+.khstt-cards--presets {
+	grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+	max-width: 560px;
+}
+
+.khstt-cards--stacked {
+	grid-template-columns: minmax(0, 1fr);
+	max-width: 560px;
+}
+
+/* KineticPowers: two wide cards, each with its illustration above the name and
+   a sentence of its own, so the choice explains itself. */
+.khstt-cards--powers {
+	grid-template-columns: repeat(auto-fit, minmax(212px, 1fr));
+	max-width: 560px;
+}
+
+.khstt-card-opt {
+	position: relative;
+	display: block;
+	cursor: pointer;
+}
+
+.khstt-card-opt__input {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.khstt-card-opt__inner {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+	height: 100%;
+	padding: 12px;
+	background: var(--khstt-a-bg);
+	border: 1px solid var(--khstt-a-line);
+	border-radius: var(--khstt-a-radius-sm);
+	transition: border-color .12s ease, background-color .12s ease, box-shadow .12s ease;
+}
+
+.khstt-cards--tiles .khstt-card-opt__inner,
+.khstt-cards--presets .khstt-card-opt__inner,
+.khstt-cards--powers .khstt-card-opt__inner {
+	align-items: center;
+	text-align: center;
+}
+
+.khstt-cards--powers .khstt-card-opt__inner {
+	gap: 6px;
+	padding: 14px 14px 15px;
+}
+
+.khstt-card-opt:hover .khstt-card-opt__inner {
+	border-color: #a7aaad;
+	background: var(--khstt-a-bg-sunken);
+}
+
+.khstt-card-opt__input:checked ~ .khstt-card-opt__inner {
+	border-color: var(--khstt-a-accent);
+	background: var(--khstt-a-accent-soft);
+	box-shadow: inset 0 0 0 1px var(--khstt-a-accent);
+}
+
+.khstt-card-opt__input:focus-visible ~ .khstt-card-opt__inner {
+	outline: 2px solid var(--khstt-a-accent);
+	outline-offset: 2px;
+}
+
+.khstt-card-opt__visual {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 30px;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-card-opt__input:checked ~ .khstt-card-opt__inner .khstt-card-opt__visual {
+	color: var(--khstt-a-accent);
+}
+
+.khstt-card-opt__visual svg {
+	display: block;
+	width: 30px;
+	height: 30px;
+}
+
+.khstt-card-opt__visual .khstt-icon-choice {
+	width: 24px;
+	height: 24px;
+}
+
+.khstt-card-opt__label {
+	display: inline-flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+	font-weight: 500;
+	line-height: 1.3;
+}
+
+.khstt-card-opt__note {
+	font-size: 12px;
+	line-height: 1.45;
+	color: var(--khstt-a-muted);
+}
+
+/* The Rocket illustration and its travel streaks share one 24x24 coordinate
+   space, so they are stacked rather than laid out. */
+.khstt-power-choice {
+	position: relative;
+	display: block;
+	width: 30px;
+	height: 30px;
+}
+
+.khstt-card-opt__visual .khstt-power-choice svg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.khstt-preset-dot {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 30px;
+	height: 30px;
+	border: 2px solid;
+	border-radius: 50%;
+}
+
+.khstt-preset-dot__icon {
+	width: 15px;
+	height: 15px;
+}
+
+/* -----------------------------------------------------------------------------
+   Live preview
+   -------------------------------------------------------------------------- */
+
+.khstt-preview {
+	background: var(--khstt-a-bg);
+	border: 1px solid var(--khstt-a-line);
+	border-radius: var(--khstt-a-radius);
+	box-shadow: var(--khstt-a-shadow);
+	overflow: hidden;
+}
+
+.khstt-preview__head {
+	padding: 12px 16px 8px;
+}
+
+.khstt-preview__title {
+	margin: 0;
+	font-size: 13px;
+	font-weight: 600;
+}
+
+.khstt-preview__hint {
+	margin: 2px 0 0;
+	font-size: 12px;
+	line-height: 1.45;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-preview__devices {
+	display: flex;
+	gap: 4px;
+	padding: 0 16px 10px;
+}
+
+.khstt-preview__device {
+	flex: 1 1 0;
+	padding: 4px 8px;
+	font: inherit;
+	font-size: 12px;
+	color: var(--khstt-a-muted);
+	background: var(--khstt-a-bg-sunken);
+	border: 1px solid var(--khstt-a-line);
+	border-radius: var(--khstt-a-radius-sm);
+	cursor: pointer;
+	transition: color .12s ease, background-color .12s ease, border-color .12s ease;
+}
+
+.khstt-preview__device:hover {
+	color: var(--khstt-a-text);
+}
+
+.khstt-preview__device.is-active {
+	color: var(--khstt-a-accent);
+	background: var(--khstt-a-accent-soft);
+	border-color: var(--khstt-a-accent);
+}
+
+.khstt-preview__device:focus-visible {
+	outline: 2px solid var(--khstt-a-accent);
+	outline-offset: 1px;
+}
+
+/* The stage is the tallest part of the panel. Trimming it, and letting it
+   shrink further on short viewports, brings the notes underneath back into
+   view without changing what the preview shows. */
+.khstt-preview__stage {
+	position: relative;
+	height: 232px;
+	width: calc(100% - 32px);
+	margin: 0 auto;
+	background: #eef0f2;
+	border: 1px solid var(--khstt-a-line);
+	border-radius: var(--khstt-a-radius-sm);
+	overflow: hidden;
+	transition: max-width .18s ease;
+}
+
+.khstt-preview[data-khstt-device="tablet"] .khstt-preview__stage {
+	max-width: 250px;
+}
+
+.khstt-preview[data-khstt-device="mobile"] .khstt-preview__stage {
+	max-width: 170px;
+}
+
+.khstt-preview__paper {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	height: 100%;
+	padding: 13px 14px 0;
+	background: #fff;
+}
+
+.khstt-preview__bar {
+	height: 7px;
+	background: #e3e6e9;
+	border-radius: 3px;
+}
+
+.khstt-preview__bar--head {
+	height: 12px;
+	width: 62%;
+	background: #cfd4d9;
+}
+
+.khstt-preview__bar--short {
+	width: 74%;
+}
+
+.khstt-preview__footer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: auto;
+	padding: 14px 0;
+	font-size: 11px;
+	letter-spacing: .04em;
+	text-transform: uppercase;
+	color: #8c9196;
+	background: #f1f3f5;
+	border-top: 1px solid #e3e6e9;
+}
+
+.khstt-preview__control {
+	position: absolute;
+	bottom: 24px;
+	right: 24px;
+	transition: bottom .18s ease, right .18s ease, left .18s ease;
+}
+
+.khstt-preview__btn {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	transition: background-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+
+/* inset:0 makes this box the button's padding box, so whenever the control has
+   a border the ring is drawn from coordinates that start outside this box - see
+   ringGeometry() in khstt-admin.js. An SVG clips to its viewport by default,
+   which would crop exactly the part that sits over the border. The frontend
+   ring carries the same declaration for the same reason. */
+.khstt-preview__ring {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+	transform: rotate(0deg);
+	pointer-events: none;
+}
+
+.khstt-preview__icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.khstt-preview__icon svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.khstt-preview__pct {
+	position: absolute;
+	font-weight: 600;
+	line-height: 1;
+	display: none;
+}
+
+.khstt-preview__btn[data-khstt-show="pct"] .khstt-preview__pct {
+	display: block;
+}
+
+.khstt-preview__btn[data-khstt-show="pct"] .khstt-preview__icon {
+	display: none;
+}
+
+/* Shown in place of the control when the current device is switched off in
+   the Visibility tab, or when the plugin itself is disabled. */
+.khstt-preview__overlay {
+	position: absolute;
+	left: 50%;
+	bottom: 50%;
+	transform: translate(-50%, 50%);
+	padding: 6px 12px;
+	font-size: 11px;
+	letter-spacing: .02em;
+	color: #fff;
+	background: rgba(29, 35, 39, .82);
+	border-radius: 20px;
+	white-space: nowrap;
+}
+
+.khstt-preview__controls {
+	padding: 10px 16px 2px;
+}
+
+.khstt-preview__row {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 8px;
+}
+
+.khstt-preview__row--checks {
+	flex-wrap: wrap;
+	gap: 14px;
+}
+
+.khstt-preview__label {
+	flex: 0 0 auto;
+	font-size: 12px;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-preview__range {
+	flex: 1 1 auto;
+	min-width: 60px;
+	height: 4px;
+	margin: 0;
+	background: var(--khstt-a-line);
+	border-radius: 999px;
+	appearance: none;
+	cursor: pointer;
+}
+
+.khstt-preview__range::-webkit-slider-thumb {
+	appearance: none;
+	width: 14px;
+	height: 14px;
+	background: var(--khstt-a-accent);
+	border: 2px solid #fff;
+	border-radius: 50%;
+	box-shadow: 0 0 0 1px var(--khstt-a-accent);
+	cursor: pointer;
+}
+
+.khstt-preview__range::-moz-range-thumb {
+	width: 12px;
+	height: 12px;
+	background: var(--khstt-a-accent);
+	border: 2px solid #fff;
+	border-radius: 50%;
+	box-shadow: 0 0 0 1px var(--khstt-a-accent);
+	cursor: pointer;
+}
+
+.khstt-preview__range:focus-visible {
+	outline: 2px solid var(--khstt-a-accent);
+	outline-offset: 3px;
+}
+
+.khstt-preview__value {
+	flex: 0 0 34px;
+	font-size: 12px;
+	font-variant-numeric: tabular-nums;
+	text-align: right;
+	color: var(--khstt-a-muted);
+}
+
+.khstt-preview__check {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-size: 12px;
+	color: var(--khstt-a-muted);
+	cursor: pointer;
+}
+
+.khstt-preview__check input {
+	margin: 0;
+}
+
+.khstt-preview__note {
+	margin: 0;
+	padding: 10px 16px 14px;
+	font-size: 11px;
+	line-height: 1.5;
+	color: var(--khstt-a-muted);
+	border-top: 1px solid var(--khstt-a-line-soft);
+}
+
+/* -----------------------------------------------------------------------------
+   Interaction polish inside the preview
+
+   The front-end control and this one are different markup, so these are the
+   preview's own rules rather than a shared stylesheet. They deliberately use
+   the same numbers: .62 opacity when idle, the same compression on a press,
+   and the same three placements for the label.
+   -------------------------------------------------------------------------- */
+
+.khstt-preview__control[data-khstt-idle="1"] .khstt-preview__btn {
+	opacity: .62;
+}
+
+.khstt-preview__btn[data-khstt-press="1"] .khstt-preview__icon,
+.khstt-preview__btn[data-khstt-press="1"] .khstt-preview__pct {
+	transform: translateY(1px) scale(.9);
+}
+
+.khstt-preview__icon,
+.khstt-preview__pct {
+	transition: transform .1s cubic-bezier(.2, .7, .3, 1);
+}
+
+/* ---- The label pill ---- */
+
+.khstt-preview__pill {
+	position: absolute;
+	z-index: 1;
+	max-width: 150px;
+	padding: 5px 9px;
+	overflow: hidden;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-size: 11px;
+	font-weight: 500;
+	line-height: 1.25;
+	/* A readable starting point only. The script replaces both with whatever
+	   the control is actually being previewed in. */
+	color: #fff;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	background: #111827;
+	border-radius: 5px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .18);
+	opacity: 0;
+	transition: opacity .16s ease, transform .16s ease;
+	pointer-events: none;
+}
+
+.khstt-preview__control[data-khstt-lbl="left"] .khstt-preview__pill {
+	right: calc(100% + 10px);
+	bottom: 50%;
+	transform: translateY(50%) scale(.94);
+}
+
+.khstt-preview__control[data-khstt-lbl="right"] .khstt-preview__pill {
+	left: calc(100% + 10px);
+	bottom: 50%;
+	transform: translateY(50%) scale(.94);
+}
+
+.khstt-preview__control[data-khstt-lbl="above"] .khstt-preview__pill {
+	left: 50%;
+	bottom: calc(100% + 10px);
+	transform: translateX(-50%) scale(.94);
+}
+
+/* Revealed by the Hover state simulation, or by really hovering the preview. */
+.khstt-preview__control[data-khstt-lbl-on="1"][data-khstt-lbl="left"] .khstt-preview__pill,
+.khstt-preview__control[data-khstt-lbl="left"]:hover .khstt-preview__pill {
+	opacity: 1;
+	transform: translateY(50%) scale(1);
+}
+
+.khstt-preview__control[data-khstt-lbl-on="1"][data-khstt-lbl="right"] .khstt-preview__pill,
+.khstt-preview__control[data-khstt-lbl="right"]:hover .khstt-preview__pill {
+	opacity: 1;
+	transform: translateY(50%) scale(1);
+}
+
+.khstt-preview__control[data-khstt-lbl-on="1"][data-khstt-lbl="above"] .khstt-preview__pill,
+.khstt-preview__control[data-khstt-lbl="above"]:hover .khstt-preview__pill {
+	opacity: 1;
+	transform: translateX(-50%) scale(1);
+}
+
+.khstt-preview__pill[hidden] {
+	display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.khstt-preview__btn,
+	.khstt-preview__icon,
+	.khstt-preview__pct,
+	.khstt-preview__pill {
+		transition: none;
+	}
+
+	.khstt-preview__btn[data-khstt-press="1"] .khstt-preview__icon,
+	.khstt-preview__btn[data-khstt-press="1"] .khstt-preview__pct {
+		transform: none;
+	}
+}
+
+/* The affordance line for KineticPowers, shown only while one is selected.
+   When it is showing, the note below it drops its own rule so the panel does
+   not end in two separators. */
+.khstt-preview__note--power {
+	padding-bottom: 0;
+	color: var(--khstt-a-text);
+}
+
+.khstt-preview__note--power:not([hidden]) + .khstt-preview__note {
+	padding-top: 8px;
+	border-top: 0;
+}
+
+/* A selected power makes the preview control worth clicking, so it says so. */
+.khstt-preview__btn[data-khstt-power] {
+	cursor: pointer;
+}
+
+/* -----------------------------------------------------------------------------
+   Action bar
+   -------------------------------------------------------------------------- */
+
+/* The bar has to stay sticky - there are a lot of settings above it - so it
+   earns its keep by being short. Less padding, a hairline instead of a full
+   border, and a softer lift keep Save dominant without the bar feeling like a
+   second toolbar. */
+.khstt-actionbar {
+	position: sticky;
+	bottom: 0;
+	z-index: 10;
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 8px 16px;
+	margin-top: 16px;
+	background: var(--khstt-a-bg);
+	border: 1px solid var(--khstt-a-line);
+	border-top-color: var(--khstt-a-line-soft);
+	border-radius: var(--khstt-a-radius);
+	box-shadow: 0 -1px 6px rgba(0, 0, 0, .05);
+}
+
+.khstt-actionbar .khstt-save {
+	min-width: 132px;
+}
+
+.khstt-reset {
+	font-size: 12px;
+}
+
+.khstt-reset {
+	color: #b32d2e;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.khstt-reset:hover,
+.khstt-reset:focus {
+	color: #8a2424;
+}
+
+/* -----------------------------------------------------------------------------
+   Reduced motion
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+	.khstt-wrap * {
+		transition-duration: .01ms;
+		animation-duration: .01ms;
+	}
+}
+
+/* -----------------------------------------------------------------------------
+   Short viewports
+
+   The preview is sticky, so on a laptop screen the panel and the action bar
+   together could push the notes underneath out of reach. The stage gives up
+   height first, because it is the one part that stays legible when smaller.
+   -------------------------------------------------------------------------- */
+
+@media (max-height: 900px) {
+	.khstt-preview__stage {
+		height: 196px;
+	}
+}
+
+@media (max-height: 760px) {
+	.khstt-preview__stage {
+		height: 168px;
+	}
+
+	.khstt-preview__head {
+		padding: 10px 16px 6px;
+	}
+}
+
+/* =============================================================================
+   KineticHub dark UI
+
+   Everything below finishes the KineticHub treatment of this screen. Two rules
+   govern the whole section:
+
+   1. Every selector starts at .khstt-wrap. Nothing here can reach the admin
+      menu, the admin bar, the notices area, or any other screen.
+   2. Where WordPress core styles the same element (buttons, inputs, notices,
+      .wrap h1), the selector is written as .khstt-wrap.wrap - the wrapper
+      carries both classes, so this outranks core without a single !important
+      and without widening the scope by one element.
+
+   The rules above this line are the structure and the spacing; these are the
+   surface treatment plus the corrections for the few places that hardcoded a
+   light value instead of reading a token.
+   ============================================================================= */
+
+/* Core hides this marker already; zeroing the box keeps it from opening a gap
+   between the hero and the tab strip. It exists so WordPress has an explicit
+   place to move admin notices to - without it, notices land after the first
+   heading, which is now the hero title. */
+.khstt-wrap .wp-header-end {
+	height: 0;
+	margin: 0;
+	border: 0;
+}
+
+/* ---------- Hero ---------- */
+
+.khstt-wrap .khstt-hero {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	padding: 28px 32px;
+	margin: 0;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 10% 6%, rgba(139, 92, 246, .22), transparent 44%),
+		radial-gradient(circle at 74% 0%, rgba(47, 125, 255, .18), transparent 46%),
+		linear-gradient(135deg, rgba(8, 24, 39, .96), rgba(5, 11, 20, .92));
+	border: 0;
+	border-bottom: 1px solid var(--khstt-border);
+	border-radius: 19px 19px 0 0;
+	box-shadow: none;
+}
+
+/* Two pseudo-elements carry the whole ornament, so it costs no markup, no
+   image request and no extra node to lay out. The arc reads as the travel of
+   the control the plugin draws. */
+.khstt-wrap .khstt-hero::before {
+	content: '';
+	position: absolute;
+	top: -130px;
+	right: -70px;
+	width: 320px;
+	height: 320px;
+	border: 1px solid rgba(139, 92, 246, .20);
+	border-radius: 50%;
+	box-shadow:
+		0 0 0 26px rgba(139, 92, 246, .04),
+		inset 0 0 70px rgba(47, 125, 255, .10);
+	pointer-events: none;
+}
+
+/* Faint dot field, masked so it fades in and out rather than ending on a hard
+   edge. */
+.khstt-wrap .khstt-hero::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 200px;
+	width: 180px;
+	height: 100%;
+	background-image: radial-gradient(rgba(167, 139, 250, .20) 1px, transparent 1px);
+	background-size: 14px 14px;
+	-webkit-mask-image: linear-gradient(90deg, transparent, #000 55%, transparent);
+	mask-image: linear-gradient(90deg, transparent, #000 55%, transparent);
+	opacity: .5;
+	pointer-events: none;
+}
+
+/* ---------- Hero product mark ---------- */
+
+/* The lit frame is CSS and the mark inside it is the plugin's icon prepared for
+   WordPress.org, shipped as a local file: one request to the site itself, no
+   CDN. The frame keeps its glow and its circular crop, so the artwork sits in
+   the same lit ring the drawn glyph used to. */
+.khstt-wrap .khstt-hero__mark {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	width: 68px;
+	height: 68px;
+	overflow: hidden;
+	color: var(--khstt-violet-lit);
+	background: rgba(5, 11, 20, .85);
+	border: 1px solid rgba(139, 92, 246, .38);
+	border-radius: 50%;
+	box-shadow:
+		0 0 28px rgba(139, 92, 246, .22),
+		inset 0 0 24px rgba(47, 125, 255, .10);
+}
+
+.khstt-wrap .khstt-hero__logo {
+	display: block;
+	width: 100%;
+	height: 100%;
+	/* cover, not contain: the source is square and the frame is square, so this
+	   fills the circle edge to edge with no letterboxing, and stays correct if
+	   the frame is ever sized non-square. */
+	object-fit: cover;
+	object-position: center;
+	border-radius: 50%;
+	/* Belt and braces for the crop: Safari has historically let a transformed or
+	   composited child paint outside an overflow:hidden rounded parent. */
+	-webkit-mask-image: -webkit-radial-gradient(circle, #fff 100%, #000 100%);
+}
+
+/* ---------- Hero text ---------- */
+
+.khstt-wrap .khstt-hero__text {
+	position: relative;
+	z-index: 1;
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.khstt-wrap.wrap .khstt-hero__title {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	gap: 9px;
+	margin: 0 0 6px;
+	padding: 0;
+	font-size: 26px;
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: -.01em;
+	color: var(--khstt-text);
+}
+
+.khstt-wrap .khstt-brand-word,
+.khstt-wrap .khstt-hero__title-rest {
+	color: var(--khstt-text);
+}
+
+/* Hub carries the brand gradient. Flat violet is declared first and the
+   clipped gradient only inside @supports, so a browser that cannot paint
+   background-clip:text shows violet text rather than nothing at all. */
+.khstt-wrap .khstt-brand-word__hub {
+	color: var(--khstt-violet-lit);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+	.khstt-wrap .khstt-brand-word__hub {
+		background-image: linear-gradient(135deg, #2f7dff 0%, #a78bfa 100%);
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+}
+
+.khstt-wrap .khstt-hero__subtitle {
+	margin: 0;
+	max-width: 62ch;
+	font-size: 13.5px;
+	color: #a8b6c9;
+}
+
+/* ---------- Hero aside: version, documentation, master switch ---------- */
+
+/* The right-hand cluster is a column so the two rows never compete for the
+   same line: identity and navigation on top, the one control the hero owns
+   underneath. */
+.khstt-wrap .khstt-hero__aside {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	flex-shrink: 0;
+	gap: 12px;
+	margin-left: auto;
+}
+
+.khstt-wrap .khstt-hero__actions {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.khstt-wrap .khstt-hero__badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+	padding: 8px 14px;
+	font-size: 12px;
+	font-weight: 600;
+	white-space: nowrap;
+	color: var(--khstt-text-soft);
+	background: rgba(5, 11, 20, .62);
+	border: 1px solid var(--khstt-border);
+	border-radius: 999px;
+}
+
+.khstt-wrap .khstt-hero__badge-dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--khstt-green);
+	box-shadow: 0 0 0 3px rgba(40, 215, 123, .16);
+}
+
+.khstt-wrap .khstt-hero__switch {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 0;
+	border-left: 0;
+}
+
+.khstt-wrap .khstt-hero__switch-title {
+	font-size: 13px;
+	font-weight: 650;
+	color: var(--khstt-text);
+}
+
+.khstt-wrap .khstt-hero__switch-state {
+	color: var(--khstt-muted);
+}
+
+/* ---------- Tabs ---------- */
+
+.khstt-wrap .khstt-tabs {
+	gap: 6px;
+	padding: 0 20px;
+	margin: 0;
+	background: rgba(4, 14, 26, .74);
+	border: 0;
+	border-bottom: 1px solid var(--khstt-border-soft);
+	border-radius: 0;
+	box-shadow: none;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.khstt-wrap .khstt-tab {
+	flex: 0 0 auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 15px 18px;
+	font-weight: 600;
+	color: #a8b6c9;
+	background: transparent;
+	border: 0;
+	border-bottom: 3px solid transparent;
+	border-radius: 0;
+	transition: color .15s ease, background-color .15s ease, border-color .15s ease;
+}
+
+.khstt-wrap .khstt-tab__icon {
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+	opacity: .85;
+	transition: opacity .15s ease, color .15s ease;
+}
+
+.khstt-wrap .khstt-tab:hover {
+	color: #ffffff;
+	background: rgba(139, 92, 246, .08);
+}
+
+.khstt-wrap .khstt-tab:hover .khstt-tab__icon {
+	opacity: 1;
+}
+
+/* The active tab is marked three ways - text colour, a bright underline, and a
+   lit icon - so it never depends on hue alone to be identifiable. */
+.khstt-wrap .khstt-tab.is-active {
+	color: var(--khstt-text);
+	background: linear-gradient(180deg, rgba(139, 92, 246, .12), rgba(139, 92, 246, .02));
+	border-bottom-color: var(--khstt-violet-lit);
+	box-shadow: inset 0 -1px 0 rgba(167, 139, 250, .45);
+}
+
+.khstt-wrap .khstt-tab.is-active .khstt-tab__icon {
+	color: var(--khstt-violet-lit);
+	opacity: 1;
+}
+
+.khstt-wrap .khstt-tab:focus-visible {
+	outline: 2px solid var(--khstt-violet-lit);
+	outline-offset: -3px;
+}
+
+/* ---------- Narrow-width containment ----------
+
+   Found while testing this batch at admin widths, and pre-existing: at 480px
+   the Appearance tab pushed a horizontal scrollbar onto the whole screen.
+
+   Two causes, one per rule below.
+
+   1. Browsers give <fieldset> a UA min-inline-size of min-content, which no
+      amount of flex or grid sizing on the parent can override. Several rows
+      here are fieldsets - the ones whose control is a radio group - so the
+      widest choice grid inside one of them was setting a floor for the row,
+      the panel, and finally the page. min-width:0 is the standard release for
+      that, and it is the whole fix: with the floor gone the grid reflows to
+      however much room it actually has.
+
+   2. minmax(<n>px, 1fr) means a track may never be narrower than n, so once
+      the container is narrower than one track the grid overflows rather than
+      dropping to fewer columns. min(<n>px, 100%) keeps the intent - tracks of
+      about n - while letting a track give way when there is genuinely less
+      room than that. */
+
+.khstt-wrap .khstt-field {
+	min-width: 0;
+}
+
+/* A stacked row lays its label above its control, and the row is a column flex
+   container whose align-items is flex-start - which sizes the control box to
+   its own content instead of to the room in front of it. Every choice grid on
+   the screen is in a stacked row, so each was computing its column count from
+   its cards' max-content width rather than from the panel: the five presets
+   decided they had ~400px, fitted three tracks, and wrapped 3 + 2 while a few
+   hundred pixels sat empty beside them. Stretching the control is the whole
+   fix - the grid then gets the panel's width, its own max-width caps it, and
+   auto-fit does the rest. */
+.khstt-wrap .khstt-field--stack .khstt-field__control {
+	align-self: stretch;
+	width: 100%;
+}
+
+/* Column counts are not written down anywhere: each grid gets a track minimum
+   and a maximum width, and auto-fit derives the count from whatever room it
+   actually has. That is what makes the ladder - roughly 4-5 compact choices on
+   a desktop panel, 3 as it narrows, 2 on a tablet, 1 when there is genuinely
+   no more room - fall out of one rule per variant instead of a stack of
+   breakpoints. The caps also stop a group of three from stretching into three
+   enormous cards on a wide screen. */
+.khstt-wrap .khstt-cards {
+	grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+	max-width: 560px;
+}
+
+/* Tiles hold the eight icons, the three shapes and the position choices. The
+   narrower cap is what keeps the eight icons at a balanced 4 + 4 rather than a
+   lopsided 5 + 3; groups of three land on one row either way. */
+.khstt-wrap .khstt-cards--tiles {
+	grid-template-columns: repeat(auto-fit, minmax(min(104px, 100%), 1fr));
+	max-width: 520px;
+}
+
+.khstt-wrap .khstt-cards--presets {
+	grid-template-columns: repeat(auto-fit, minmax(min(96px, 100%), 1fr));
+}
+
+/* Stated deliberately rather than inherited. The base stylesheet gives this
+   variant a single column; the dashboard was reviewed and approved with these
+   groups reading as a row of choices, which suits them better than a stack of
+   full-width bars. Declaring it here makes that a decision rather than a side
+   effect of where this block sits in the cascade. */
+.khstt-wrap .khstt-cards--stacked {
+	grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+	max-width: 560px;
+}
+
+/* Wide descriptive cards: each carries an illustration, a name and a sentence,
+   so they keep their own generous track and stay two across. */
+.khstt-wrap .khstt-cards--powers {
+	grid-template-columns: repeat(auto-fit, minmax(min(212px, 100%), 1fr));
+}
+
+/* ---------- Layout ---------- */
+
+.khstt-wrap .khstt-layout {
+	gap: 20px;
+	padding: 22px 22px 0;
+}
+
+.khstt-wrap .khstt-side {
+	top: 46px;
+}
+
+/* ---------- Cards ---------- */
+
+.khstt-wrap .khstt-card {
+	margin-bottom: 18px;
+	background: linear-gradient(180deg, rgba(11, 31, 52, .92), rgba(7, 17, 31, .92));
+	border: 1px solid var(--khstt-border);
+	border-radius: 16px;
+	box-shadow: var(--khstt-a-shadow);
+}
+
+/* The head takes the card's own radius rather than the card clipping it.
+   overflow:hidden would do the same job in one line and then quietly crop
+   every focus ring that sits near a card edge, which is a bad trade. */
+.khstt-wrap .khstt-card__head {
+	padding: 16px 22px 14px;
+	background: rgba(5, 11, 20, .42);
+	border-bottom: 1px solid var(--khstt-border-soft);
+	border-radius: 15px 15px 0 0;
+}
+
+.khstt-wrap .khstt-card__title {
+	font-size: 14.5px;
+	font-weight: 700;
+	color: var(--khstt-text);
+}
+
+.khstt-wrap .khstt-card__note {
+	color: var(--khstt-muted);
+}
+
+.khstt-wrap .khstt-card__body {
+	padding: 4px 22px 18px;
+}
+
+/* This plugin puts a row's help text under its label rather than under its
+   control, which is its own pattern and worth keeping. The fixed 210px column
+   it sat in was not: on a wide panel a four-word label and its three sentences
+   were squeezed into 210px while several hundred pixels sat empty beside a
+   single input. The column now scales with the panel and stops at both ends,
+   so the help text gets a readable measure without the label column ever
+   growing wide enough to crowd the controls.
+
+   Row layout only. Stacked rows put the label above a full-width control and
+   must keep their own sizing. */
+.khstt-wrap .khstt-field--row .khstt-field__head {
+	flex: 0 0 clamp(200px, 25%, 320px);
+}
+
+.khstt-wrap .khstt-field__label {
+	font-weight: 650;
+	color: var(--khstt-text);
+}
+
+.khstt-wrap .khstt-field__help,
+.khstt-wrap .khstt-note {
+	color: var(--khstt-muted);
+}
+
+/* ---------- Inputs ---------- */
+
+/* One border colour and one recessed background for every text-entry control
+   on the screen, replacing the #8c8f94 hairline the light theme inherited from
+   wp-admin. */
+.khstt-wrap.wrap .khstt-select,
+.khstt-wrap.wrap .khstt-text,
+.khstt-wrap.wrap .khstt-number__input,
+.khstt-wrap.wrap .khstt-color__hex {
+	min-height: 36px;
+	padding: 7px 11px;
+	color: var(--khstt-text);
+	background-color: var(--khstt-ui-sunken);
+	border: 1px solid rgba(150, 170, 255, .22);
+	border-radius: var(--khstt-radius-sm);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03);
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.khstt-wrap.wrap .khstt-number__input {
+	padding-right: 30px;
+}
+
+/* The native arrow is replaced with a local data URI in the muted blue of the
+   palette - the stock arrow is a dark grey that all but disappears on this
+   background. The dropdown list itself stays native (color-scheme:dark on the
+   wrapper renders it dark), so keyboard and platform behaviour is unchanged. */
+.khstt-wrap.wrap .khstt-select {
+	padding-right: 34px;
+	-webkit-appearance: none;
+	appearance: none;
+	background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%2393a7c2' d='M5.2 7.3 10 12.1l4.8-4.8 1.4 1.4-6.2 6.2-6.2-6.2z'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 10px center;
+	background-size: 16px 16px;
+}
+
+.khstt-wrap.wrap .khstt-select option {
+	color: var(--khstt-text);
+	background-color: var(--khstt-ui-sunken);
+}
+
+.khstt-wrap.wrap .khstt-select:focus-visible,
+.khstt-wrap.wrap .khstt-text:focus-visible,
+.khstt-wrap.wrap .khstt-number__input:focus-visible,
+.khstt-wrap.wrap .khstt-color__hex:focus-visible {
+	border-color: var(--khstt-violet-lit);
+	box-shadow: 0 0 0 3px rgba(139, 92, 246, .22);
+	/* A transparent outline keeps a real focus ring in Windows High Contrast /
+	   forced-colors mode, where the box-shadow above is discarded. */
+	outline: 2px solid transparent;
+	outline-offset: 2px;
+}
+
+.khstt-wrap.wrap ::placeholder {
+	color: var(--khstt-muted-2);
+	opacity: 1;
+}
+
+.khstt-wrap .khstt-number__unit {
+	color: var(--khstt-muted);
+}
+
+.khstt-wrap .khstt-color__swatch {
+	width: 40px;
+	height: 34px;
+	background: var(--khstt-ui-sunken);
+	border: 1px solid rgba(150, 170, 255, .22);
+	border-radius: var(--khstt-radius-sm);
+}
+
+.khstt-wrap .khstt-color__swatch:focus-visible {
+	outline: 2px solid var(--khstt-violet-lit);
+	outline-offset: 2px;
+}
+
+/* Browsers draw their own pale hairline around the colour area, which on this
+   surface reads as a stray light rectangle rather than as part of the control.
+   This is presentation only: the element is still a native input[type="color"]
+   and still opens the platform's own picker with the platform's own keyboard
+   behaviour. */
+.khstt-wrap .khstt-color__swatch::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+
+.khstt-wrap .khstt-color__swatch::-webkit-color-swatch {
+	border: 1px solid rgba(150, 170, 255, .28);
+	border-radius: 6px;
+}
+
+.khstt-wrap .khstt-color__swatch::-moz-color-swatch {
+	border: 1px solid rgba(150, 170, 255, .28);
+	border-radius: 6px;
+}
+
+/* Range thumbs carried a white ring drawn for a white card. On this surface
+   the ring has to be the surface, or the thumb reads as a bright dot with a
+   halo rather than as a handle sitting in a track. */
+.khstt-wrap .khstt-number__range,
+.khstt-wrap .khstt-preview__range {
+	background: rgba(150, 170, 255, .20);
+}
+
+.khstt-wrap .khstt-number__range::-webkit-slider-thumb,
+.khstt-wrap .khstt-preview__range::-webkit-slider-thumb {
+	background: var(--khstt-violet-lit);
+	border: 2px solid var(--khstt-ui-panel);
+	box-shadow: 0 0 0 1px var(--khstt-violet), 0 0 10px rgba(139, 92, 246, .40);
+}
+
+.khstt-wrap .khstt-number__range::-moz-range-thumb,
+.khstt-wrap .khstt-preview__range::-moz-range-thumb {
+	background: var(--khstt-violet-lit);
+	border: 2px solid var(--khstt-ui-panel);
+	box-shadow: 0 0 0 1px var(--khstt-violet), 0 0 10px rgba(139, 92, 246, .40);
+}
+
+.khstt-wrap .khstt-number__range:focus-visible,
+.khstt-wrap .khstt-preview__range:focus-visible {
+	outline: 2px solid var(--khstt-violet-lit);
+	outline-offset: 3px;
+}
+
+/* Native checkboxes and radios: the preview's simulation checks are the only
+   ones on the screen, and core paints them for a white card. */
+.khstt-wrap.wrap input[type="checkbox"]:not(.khstt-switch__input),
+.khstt-wrap.wrap input[type="radio"]:not(.khstt-card-opt__input) {
+	background: var(--khstt-ui-sunken);
+	border: 1px solid rgba(150, 170, 255, .30);
+	box-shadow: none;
+}
+
+.khstt-wrap.wrap input[type="checkbox"]:not(.khstt-switch__input):checked::before {
+	color: var(--khstt-violet-lit);
+}
+
+.khstt-wrap.wrap input[type="checkbox"]:not(.khstt-switch__input):focus,
+.khstt-wrap.wrap input[type="radio"]:not(.khstt-card-opt__input):focus {
+	border-color: var(--khstt-violet-lit);
+	box-shadow: 0 0 0 3px rgba(139, 92, 246, .22);
+	outline: 2px solid transparent;
+	outline-offset: 2px;
+}
+
+/* ---------- Switch ---------- */
+
+.khstt-wrap .khstt-switch__track {
+	background: #132236;
+	border: 1px solid rgba(150, 170, 255, .18);
+}
+
+.khstt-wrap .khstt-switch__thumb {
+	background: #ffffff;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, .45);
+}
+
+.khstt-wrap .khstt-switch__input:checked ~ .khstt-switch__track {
+	background: var(--khstt-ramp);
+	border-color: rgba(139, 92, 246, .55);
+	box-shadow: 0 0 16px rgba(139, 92, 246, .28);
+}
+
+.khstt-wrap .khstt-switch__input:focus-visible ~ .khstt-switch__track {
+	outline: 2px solid var(--khstt-violet-lit);
+	outline-offset: 2px;
+}
+
+/* ---------- Selectable cards ---------- */
+
+.khstt-wrap .khstt-card-opt__inner {
+	background: rgba(5, 11, 20, .60);
+	border: 1px solid rgba(150, 170, 255, .14);
+	border-radius: 12px;
+}
+
+.khstt-wrap .khstt-card-opt:hover .khstt-card-opt__inner {
+	background: rgba(5, 11, 20, .72);
+	border-color: rgba(139, 92, 246, .34);
+}
+
+.khstt-wrap .khstt-card-opt__input:checked ~ .khstt-card-opt__inner {
+	background: linear-gradient(180deg, rgba(139, 92, 246, .14), rgba(47, 125, 255, .05));
+	border-color: rgba(139, 92, 246, .70);
+	box-shadow:
+		0 0 0 1px rgba(139, 92, 246, .28),
+		0 0 26px rgba(139, 92, 246, .12);
+}
+
+.khstt-wrap .khstt-card-opt__label {
+	color: var(--khstt-text-soft);
+}
+
+.khstt-wrap .khstt-card-opt__input:checked ~ .khstt-card-opt__inner .khstt-card-opt__label {
+	color: #ffffff;
+}
+
+.khstt-wrap .khstt-card-opt__note {
+	color: var(--khstt-muted);
+}
+
+.khstt-wrap .khstt-card-opt__input:focus-visible ~ .khstt-card-opt__inner {
+	outline: 2px solid var(--khstt-violet-lit);
+	outline-offset: 2px;
+}
+
+/* ---------- Badges ---------- */
+
+/* The Advanced badge shares the badge shape but not its enthusiasm, so it
+   keeps its own amber - relit for this background rather than dropped. */
+.khstt-wrap .khstt-badge--caution {
+	color: var(--khstt-amber);
+	background: rgba(251, 191, 36, .12);
+	border-color: rgba(251, 191, 36, .32);
+}
+
+/* ---------- Compatibility status ---------- */
+
+.khstt-wrap .khstt-status {
+	background: rgba(5, 11, 20, .55);
+	border-color: var(--khstt-border-soft);
+	border-radius: 12px;
+}
+
+.khstt-wrap .khstt-status__value--positive {
+	color: var(--khstt-green);
+}
+
+.khstt-wrap .khstt-status__value--warning {
+	color: var(--khstt-amber);
+}
+
+.khstt-wrap .khstt-status__value--error {
+	color: var(--khstt-red);
+}
+
+.khstt-wrap .khstt-status__list code {
+	color: var(--khstt-text-soft);
+	background: var(--khstt-ui-sunken);
+	border-color: var(--khstt-border-soft);
+	border-radius: 4px;
+}
+
+/* ---------- Inline alerts ---------- */
+
+.khstt-wrap .khstt-alert {
+	background: rgba(5, 11, 20, .55);
+	border-color: var(--khstt-border-soft);
+	border-radius: 10px;
+}
+
+.khstt-wrap .khstt-alert--notice {
+	border-left-color: var(--khstt-violet-lit);
+	background: rgba(139, 92, 246, .10);
+}
+
+.khstt-wrap .khstt-alert--warning {
+	border-left-color: var(--khstt-amber);
+	background: rgba(251, 191, 36, .09);
+}
+
+/* ---------- Live preview ---------- */
+
+/* The panel takes the card treatment, but the stage inside it deliberately
+   does not. The stage is a picture of the visitor's page, and the visitor's
+   page is not this dashboard: making it dark would misrepresent the very thing
+   the preview exists to show. It stays light, with only its outer edge relit
+   so it sits on the dark card rather than floating on it. */
+.khstt-wrap .khstt-preview {
+	background: linear-gradient(180deg, rgba(11, 31, 52, .92), rgba(7, 17, 31, .92));
+	border: 1px solid var(--khstt-border);
+	border-radius: 16px;
+	box-shadow: var(--khstt-a-shadow);
+}
+
+.khstt-wrap .khstt-preview__title {
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--khstt-text);
+}
+
+.khstt-wrap .khstt-preview__hint,
+.khstt-wrap .khstt-preview__label,
+.khstt-wrap .khstt-preview__value,
+.khstt-wrap .khstt-preview__check,
+.khstt-wrap .khstt-preview__note {
+	color: var(--khstt-muted);
+}
+
+.khstt-wrap .khstt-preview__note {
+	border-top-color: var(--khstt-border-soft);
+}
+
+.khstt-wrap .khstt-preview__note--power {
+	color: var(--khstt-text-soft);
+}
+
+.khstt-wrap .khstt-preview__device {
+	color: var(--khstt-muted);
+	background: rgba(5, 11, 20, .60);
+	border: 1px solid rgba(150, 170, 255, .16);
+	border-radius: 8px;
+}
+
+.khstt-wrap .khstt-preview__device:hover {
+	color: var(--khstt-text);
+	border-color: rgba(139, 92, 246, .34);
+}
+
+.khstt-wrap .khstt-preview__device.is-active {
+	color: #ffffff;
+	background: linear-gradient(180deg, rgba(139, 92, 246, .20), rgba(47, 125, 255, .08));
+	border-color: rgba(139, 92, 246, .70);
+}
+
+.khstt-wrap .khstt-preview__device:focus-visible {
+	outline: 2px solid var(--khstt-violet-lit);
+	outline-offset: 2px;
+}
+
+.khstt-wrap .khstt-preview__stage {
+	border: 1px solid rgba(150, 170, 255, .22);
+	border-radius: 12px;
+	box-shadow: 0 10px 26px rgba(0, 0, 0, .30);
+}
+
+/* ---------- Buttons ---------- */
+
+/* Flex centring rather than a line-height guess, so a button holding an icon
+   and a label lines both up on the same centre line. */
+.khstt-wrap.wrap .button,
+.khstt-wrap.wrap .button-secondary {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	min-height: 36px;
+	height: auto;
+	padding: 7px 14px;
+	line-height: 1.2;
+	vertical-align: middle;
+	font-weight: 600;
+	/* Some of these buttons are anchors and the admin underlines links by
+	   default - stated here so the look does not depend on core's button sheet
+	   winning the cascade. */
+	text-decoration: none;
+	color: var(--khstt-text);
+	background: rgba(5, 11, 20, .62);
+	border: 1px solid rgba(150, 170, 255, .24);
+	border-radius: var(--khstt-radius-sm);
+	box-shadow: none;
+	text-shadow: none;
+	transition: color .15s ease, background-color .15s ease, border-color .15s ease;
+}
+
+.khstt-wrap.wrap .button:hover,
+.khstt-wrap.wrap .button-secondary:hover {
+	color: #ffffff;
+	background: rgba(139, 92, 246, .12);
+	border-color: var(--khstt-violet-lit);
+}
+
+.khstt-wrap.wrap .button:focus,
+.khstt-wrap.wrap .button:focus-visible,
+.khstt-wrap.wrap .button-secondary:focus {
+	color: #ffffff;
+	border-color: var(--khstt-violet-lit);
+	box-shadow: 0 0 0 3px rgba(139, 92, 246, .24);
+	outline: 2px solid transparent;
+	outline-offset: 2px;
+}
+
+.khstt-wrap.wrap .button:disabled,
+.khstt-wrap.wrap .button[disabled] {
+	color: var(--khstt-muted-2);
+	background: rgba(5, 11, 20, .40);
+	border-color: rgba(150, 170, 255, .12);
+}
+
+.khstt-wrap.wrap .button-primary {
+	min-height: 40px;
+	font-weight: 700;
+	color: #ffffff;
+	background: var(--khstt-ramp);
+	border: 1px solid rgba(255, 255, 255, .18);
+	border-radius: var(--khstt-radius-sm);
+	box-shadow: 0 10px 26px rgba(109, 40, 217, .30);
+	text-shadow: none;
+	transition: filter .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+
+.khstt-wrap.wrap .button-primary:hover {
+	color: #ffffff;
+	background: var(--khstt-ramp);
+	border-color: rgba(255, 255, 255, .28);
+	filter: brightness(1.10);
+	transform: translateY(-1px);
+}
+
+.khstt-wrap.wrap .button-primary:focus,
+.khstt-wrap.wrap .button-primary:focus-visible {
+	color: #ffffff;
+	box-shadow:
+		0 10px 26px rgba(109, 40, 217, .30),
+		0 0 0 3px rgba(167, 139, 250, .45);
+	outline: 2px solid transparent;
+	outline-offset: 2px;
+}
+
+.khstt-wrap.wrap .button-primary:active {
+	transform: none;
+}
+
+/* The Documentation link is a quiet sibling of the version badge, not a call
+   to action: it takes the badge's pill shape rather than the button's. */
+.khstt-wrap.wrap .khstt-hero__link {
+	padding: 8px 16px;
+	font-size: 12px;
+	border-radius: 999px;
+}
+
+/* ---------- Action bar ---------- */
+
+.khstt-wrap .khstt-actionbar {
+	gap: 16px;
+	padding: 10px 16px;
+	margin: 18px 22px 22px;
+	background: linear-gradient(180deg, rgba(11, 31, 52, .97), rgba(5, 11, 20, .97));
+	border: 1px solid var(--khstt-border);
+	border-radius: var(--khstt-radius-md);
+	box-shadow: 0 -6px 24px rgba(0, 0, 0, .34);
+}
+
+.khstt-wrap.wrap .khstt-reset {
+	min-height: 0;
+	padding: 4px 6px;
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--khstt-red);
+	background: transparent;
+	border: 0;
+	border-radius: 6px;
+	box-shadow: none;
+}
+
+.khstt-wrap.wrap .khstt-reset:hover,
+.khstt-wrap.wrap .khstt-reset:focus {
+	color: #ffffff;
+	background: rgba(255, 77, 94, .22);
+	border-color: transparent;
+}
+
+.khstt-wrap.wrap .khstt-reset:focus-visible {
+	outline: 2px solid var(--khstt-red);
+	outline-offset: 2px;
+	box-shadow: none;
+}
+
+/* ---------- Links ---------- */
+
+/* Most links on the page are buttons, but the admin's default link blue
+   (#2271b1) is close to unreadable on this background, so any plain link -
+   the compatibility card's "your site", a future one added in review - starts
+   out legible rather than needing to be caught later. */
+.khstt-wrap a:not(.button) {
+	color: var(--khstt-violet-lit);
+}
+
+.khstt-wrap a:not(.button):hover,
+.khstt-wrap a:not(.button):focus {
+	color: #c9b6ff;
+}
+
+.khstt-wrap a:not(.button):focus-visible {
+	outline: 2px solid var(--khstt-violet-lit);
+	outline-offset: 2px;
+	border-radius: 3px;
+}
+
+/* ---------- Admin notices ---------- */
+
+/* WordPress moves every notice on the screen to just after .wp-header-end, so
+   they all land in one place: between the hero and the tab strip. Both
+   positions are styled because with JavaScript unavailable nothing is moved
+   and the plugin's own notices stay where they were printed. */
+.khstt-wrap.wrap > .notice,
+.khstt-wrap.wrap .khstt-form > .notice {
+	margin: 18px 22px 0;
+	padding: 4px 12px;
+	color: var(--khstt-text-soft);
+	background: rgba(8, 24, 39, .92);
+	border: 1px solid var(--khstt-border);
+	border-left: 4px solid var(--khstt-green);
+	border-radius: 12px;
+	box-shadow: none;
+}
+
+.khstt-wrap.wrap .notice-info {
+	border-left-color: var(--khstt-violet-lit);
+}
+
+.khstt-wrap.wrap .notice-error {
+	border-left-color: var(--khstt-red);
+}
+
+.khstt-wrap.wrap .notice p {
+	color: var(--khstt-text-soft);
+}
+
+.khstt-wrap.wrap .notice-dismiss::before {
+	color: var(--khstt-muted);
+}
+
+/* ---------- Responsive ---------- */
+
+@media screen and (max-width: 1280px) {
+	.khstt-wrap .khstt-side {
+		position: static;
+		max-width: 460px;
+	}
+}
+
+@media screen and (max-width: 1100px) {
+	.khstt-wrap .khstt-hero {
+		padding: 22px 22px;
+		gap: 16px;
+	}
+
+	.khstt-wrap.wrap .khstt-hero__title {
+		font-size: 22px;
+	}
+}
+
+@media screen and (max-width: 900px) {
+	/* The aside stops being a right-hand column and becomes a full-width row
+	   under the title, which is the only way the master switch and the two
+	   pills all stay on screen without the title collapsing to two words a
+	   line. */
+	.khstt-wrap .khstt-hero {
+		flex-wrap: wrap;
+	}
+
+	.khstt-wrap .khstt-hero__text {
+		flex: 1 1 260px;
+	}
+
+	.khstt-wrap .khstt-hero__aside {
+		flex-direction: row;
+		align-items: center;
+		flex-wrap: wrap;
+		width: 100%;
+		margin-left: 0;
+		justify-content: flex-start;
+		gap: 10px 16px;
+	}
+
+	.khstt-wrap .khstt-hero::after {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 782px) {
+	.khstt-wrap {
+		margin: 10px 10px 24px 0;
+		border-radius: 16px;
+	}
+
+	.khstt-wrap .khstt-hero {
+		border-radius: 15px 15px 0 0;
+	}
+
+	/* The logo is sized at 100% of the frame, so shrinking the frame is all the
+	   responsive step needs to do. */
+	.khstt-wrap .khstt-hero__mark {
+		width: 56px;
+		height: 56px;
+	}
+
+	.khstt-wrap .khstt-tabs {
+		padding: 0 10px;
+		gap: 2px;
+	}
+
+	.khstt-wrap .khstt-tab {
+		padding: 13px 12px;
+	}
+
+	.khstt-wrap .khstt-layout {
+		padding: 14px 14px 0;
+	}
+
+	.khstt-wrap .khstt-actionbar {
+		margin: 14px 14px 14px;
+	}
+
+	/* The stacking rules for narrow screens are restated at wrapper scope. The
+	   label's flex-basis above is a *row* width; once the row turns into a
+	   column that same basis becomes a height, which would open a 210px gap
+	   between every label and its control. */
+	.khstt-wrap .khstt-field {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 8px;
+	}
+
+	.khstt-wrap .khstt-field__head {
+		flex: none;
+		width: 100%;
+	}
+
+	.khstt-wrap .khstt-card__body {
+		padding: 4px 16px 16px;
+	}
+
+	.khstt-wrap .khstt-card__head {
+		padding: 14px 16px 12px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	/* Below this the five labels cannot share a line at any padding, so the
+	   strip becomes icons with the label carried by the accessible name. The
+	   buttons keep their text in the DOM: only the visual label is dropped. */
+	.khstt-wrap .khstt-tab__label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		padding: 0;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+
+	.khstt-wrap .khstt-tab {
+		flex: 1 1 auto;
+		justify-content: center;
+		padding: 13px 8px;
+	}
+
+	.khstt-wrap .khstt-hero__switch {
+		margin-left: auto;
+	}
+}
+
+/* ---------- Reduced motion ----------
+   Restated at the foot of the file. The blanket rule earlier is .khstt-wrap *,
+   which every selector added above outranks, so without this the new hover
+   tints and lifts would survive a reduced-motion preference. None of them
+   carry information on their own, so all of them can go. */
+@media (prefers-reduced-motion: reduce) {
+	.khstt-wrap .khstt-tab,
+	.khstt-wrap .khstt-tab__icon,
+	.khstt-wrap .khstt-card-opt__inner,
+	.khstt-wrap .khstt-preview__device,
+	.khstt-wrap.wrap .button,
+	.khstt-wrap.wrap .button-secondary,
+	.khstt-wrap.wrap .button-primary,
+	.khstt-wrap.wrap .khstt-select,
+	.khstt-wrap.wrap .khstt-text,
+	.khstt-wrap.wrap .khstt-number__input,
+	.khstt-wrap.wrap .khstt-color__hex,
+	.khstt-wrap .khstt-switch__track,
+	.khstt-wrap .khstt-switch__thumb {
+		transition-duration: .01ms;
+	}
+
+	.khstt-wrap.wrap .button-primary:hover {
+		transform: none;
+	}
+}

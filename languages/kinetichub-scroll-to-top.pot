@@ -1,0 +1,1183 @@
+# Copyright (C) 2026 KineticHub
+# This file is distributed under the GPLv2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: KineticHub Scroll to Top 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/kinetichub-scroll-to-top\n"
+"POT-Creation-Date: 2026-09-06 11:34+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: kinetichub-scroll-to-top\n"
+
+#. translators: %d: number of competing controls Force Replace is hiding.
+#: admin/views/partials/compat-status.php:119
+msgid "%d found, hidden by Force Replace"
+msgid_plural "%d found, hidden by Force Replace"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: number of competing controls found.
+#: admin/views/partials/compat-status.php:133
+msgid "%d possible conflict detected"
+msgid_plural "%d possible conflicts detected"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: the detected scrolling environment, e.g. "Lenis detected".
+#: admin/views/partials/compat-status.php:208
+msgid "%s. KineticHub Scroll to Top still reads the page's normal scroll position, which is usually correct, but it does not drive that library. Test Smart Motion and Smart Return on this site before relying on them."
+msgstr ""
+
+#: admin/views/page-settings.php:153
+msgid "(opens in a new tab)"
+msgstr ""
+
+#: admin/views/page-settings.php:127
+msgid "A lightweight smart scroll companion: navigate, show reading progress, and stay out of the way."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:146
+msgid "A short sequence that plays when someone uses the control. It never changes where or how fast the page scrolls."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:59
+msgid "A starting point, not a lock. Pick a preset, then change anything you like."
+msgstr ""
+
+#: admin/views/tabs/progress.php:23
+msgid "A thin ring around the control showing how far through the page the visitor is."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:130
+msgid "Add lightweight motion choreography when the control is activated."
+msgstr ""
+
+#: includes/class-khstt-ui.php:337
+msgid "Advanced"
+msgstr ""
+
+#: admin/views/tabs/general.php:251
+msgid "Advanced Compatibility"
+msgstr ""
+
+#: admin/views/tabs/general.php:132
+msgid "After a long jump to the top, the same control briefly turns into a Return action that sends the visitor back to their previous position. The offer clears after 12 seconds, once they scroll on their own, or on Escape."
+msgstr ""
+
+#: admin/views/page-settings.php:49
+msgid "All settings were reset to their defaults."
+msgstr ""
+
+#: admin/views/tabs/progress.php:17
+msgid "Always"
+msgstr ""
+
+#: admin/views/tabs/general.php:212
+msgid "Always use normal browser page scrolling. Best for most WordPress themes."
+msgstr ""
+
+#: admin/views/tabs/progress.php:95
+msgid "Always: the number replaces the icon at rest, and the icon returns on hover or focus so the action stays obvious. On hover and focus: the reverse."
+msgstr ""
+
+#: admin/views/partials/compat-status.php:243
+msgid "Another back-to-top control appears to be active on this site."
+msgid_plural "Other back-to-top controls appear to be active on this site."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/views/page-settings.php:21
+msgid "Appearance"
+msgstr ""
+
+#: admin/views/tabs/general.php:80
+msgid "Appears after a fixed scroll distance you choose."
+msgstr ""
+
+#: admin/views/tabs/general.php:75
+msgid "Appears once the visitor has scrolled past the first screen."
+msgstr ""
+
+#. translators: %s: the mobile breakpoint.
+#: admin/views/tabs/position.php:110
+msgid "Applies at %s and below. Off means mobile uses the desktop placement."
+msgstr ""
+
+#. translators: %s: the mobile breakpoint.
+#: admin/views/tabs/progress.php:144
+msgid "Applies at %s and below. Off means mobile uses the values above."
+msgstr ""
+
+#. translators: %s: the tablet breakpoint range.
+#: admin/views/tabs/position.php:60
+msgid "Applies between %s. Off means tablet uses the desktop placement."
+msgstr ""
+
+#: includes/class-khstt-icons.php:91
+msgid "Arrow Up"
+msgstr ""
+
+#: admin/views/tabs/general.php:206
+msgid "Auto"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:91
+msgid "Automatic, not checked yet"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:94
+msgid "Automatic: a page-level scroll container"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:97
+msgid "Automatic: the browser window"
+msgstr ""
+
+#: includes/class-khstt-admin.php:165
+#: includes/class-khstt-frontend.php:355
+msgid "Back to content start"
+msgstr ""
+
+#: includes/class-khstt-admin.php:164
+#: includes/class-khstt-frontend.php:356
+msgid "Back to top"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:332
+msgid "Backdrop Blur"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:286
+msgid "Background"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:322
+msgid "Background Opacity"
+msgstr ""
+
+#: includes/class-khstt-powers.php:142
+msgid "Balanced"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:333
+msgid "Blurs whatever sits behind a translucent button. Ignored by browsers that do not support it."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:20
+msgid "Bold"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:356
+msgid "Border Color"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:347
+msgid "Border Width"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:342
+msgid "Border and Shadow"
+msgstr ""
+
+#: includes/class-khstt-admin.php:328
+msgid "Bottom Center"
+msgstr ""
+
+#: includes/class-khstt-admin.php:324
+msgid "Bottom Left"
+msgstr ""
+
+#: admin/views/tabs/position.php:47
+msgid "Bottom Offset"
+msgstr ""
+
+#: includes/class-khstt-admin.php:320
+msgid "Bottom Right"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:71
+msgid "Browser window"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:204
+msgid "Button Size"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:214
+msgid "Capped at 12px below the button size so the glyph always has breathing room."
+msgstr ""
+
+#: includes/class-khstt-icons.php:96
+msgid "Caret Up"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:174
+msgid "Check Again"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:180
+msgid "Check Again clears this reading; opening your site records a new one."
+msgstr ""
+
+#: includes/class-khstt-icons.php:92
+msgid "Chevron Up"
+msgstr ""
+
+#: admin/views/tabs/general.php:196
+msgid "Choose where KineticHub Scroll to Top follows the scroll position."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:109
+msgid "Circle"
+msgstr ""
+
+#: admin/views/partials/preview.php:113
+msgid "Click the preview control to test Rocket Boost."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:281
+msgid "Colors"
+msgstr ""
+
+#: admin/views/tabs/general.php:188
+msgid "Compatibility"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:158
+msgid "Compatibility is checked automatically when an administrator visits the front end."
+msgstr ""
+
+#: admin/views/tabs/general.php:164
+msgid "Content Start"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:87
+#: admin/views/tabs/general.php:79
+#: admin/views/tabs/general.php:215
+msgid "Custom"
+msgstr ""
+
+#: admin/views/tabs/general.php:176
+#: admin/views/tabs/progress.php:65
+msgid "Custom Content Selector"
+msgstr ""
+
+#: admin/views/tabs/general.php:226
+msgid "Custom Scroll Container"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:78
+msgid "Custom container not found, using the browser window"
+msgstr ""
+
+#: includes/class-khstt-compat.php:633
+msgid "Custom scroll container"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:75
+msgid "Custom, not checked yet"
+msgstr ""
+
+#. translators: %s: the configured CSS selector.
+#: admin/views/partials/compat-status.php:84
+msgid "Custom: %s"
+msgstr ""
+
+#: admin/views/partials/preview.php:22
+msgid "Desktop"
+msgstr ""
+
+#: admin/views/tabs/position.php:19
+msgid "Desktop Placement"
+msgstr ""
+
+#: admin/views/tabs/general.php:143
+msgid "Destination"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:108
+msgid "Detection is off"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:32
+msgid "Device targeting is done in CSS at the breakpoints below, so it stays correct behind page caches."
+msgstr ""
+
+#: admin/views/tabs/visibility.php:31
+msgid "Devices"
+msgstr ""
+
+#: admin/views/page-settings.php:161
+#: includes/class-khstt-admin.php:160
+msgid "Disabled"
+msgstr ""
+
+#: admin/views/tabs/position.php:48
+msgid "Distance from the bottom edge. Safe-area insets on phones are added on top of this automatically."
+msgstr ""
+
+#: admin/views/tabs/position.php:38
+msgid "Distance from the left or right edge. Ignored for the centered position."
+msgstr ""
+
+#: admin/views/page-settings.php:152
+msgid "Documentation"
+msgstr ""
+
+#: includes/class-khstt-icons.php:94
+msgid "Double Chevron"
+msgstr ""
+
+#: admin/views/tabs/general.php:37
+msgid "Duration adapts to distance, capped so long pages never crawl."
+msgstr ""
+
+#: admin/views/page-settings.php:161
+#: includes/class-khstt-admin.php:159
+msgid "Enabled"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:16
+msgid "Entire site"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:153
+msgid "Existing Back-to-Top"
+msgstr ""
+
+#: admin/views/tabs/general.php:258
+msgid "Existing Control Selector"
+msgstr ""
+
+#: admin/views/partials/preview.php:60
+msgid "Footer"
+msgstr ""
+
+#: admin/views/tabs/position.php:168
+msgid "Footer Collision"
+msgstr ""
+
+#: admin/views/tabs/general.php:270
+msgid "Force Replace Existing Back-to-Top"
+msgstr ""
+
+#. translators: %d: number of competing controls Force Replace is hiding.
+#: admin/views/partials/compat-status.php:225
+msgid "Force Replace is hiding %d competing control."
+msgid_plural "Force Replace is hiding %d competing controls."
+msgstr[0] ""
+msgstr[1] ""
+
+#: admin/views/tabs/visibility.php:20
+msgid "Front page only"
+msgstr ""
+
+#: admin/views/page-settings.php:19
+msgid "General"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:19
+msgid "Glass"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:91
+msgid "Handled automatically, so there is nothing to configure."
+msgstr ""
+
+#: includes/class-khstt-ui.php:241
+msgid "Hex color value"
+msgstr ""
+
+#: includes/class-khstt-admin.php:161
+msgid "Hidden on this device"
+msgstr ""
+
+#: admin/views/tabs/general.php:271
+msgid "Hides the competing controls found above, so KineticHub Scroll to Top is the only back-to-top control on the page. Themes vary, so check your site after turning this on."
+msgstr ""
+
+#: admin/views/tabs/position.php:37
+msgid "Horizontal Offset"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:186
+msgid "Hover / Focus Label"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:304
+msgid "Hover Background"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:313
+msgid "Hover Icon"
+msgstr ""
+
+#: admin/views/partials/preview.php:103
+msgid "Hover state"
+msgstr ""
+
+#: admin/views/tabs/general.php:91
+msgid "How far down the page the visitor must scroll before the control appears."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:158
+msgid "How much the effect moves. Visual amplitude only."
+msgstr ""
+
+#: admin/views/tabs/general.php:19
+msgid "How the page travels when the control is activated."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:88
+#: admin/views/tabs/appearance.php:295
+msgid "Icon"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:213
+msgid "Icon Size"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:83
+msgid "Icon and Shape"
+msgstr ""
+
+#: admin/views/tabs/general.php:259
+msgid "Identify a competing back-to-top control that automatic detection may miss. Use a CSS selector: #scroll-top for an id, or .scroll-top-right for a class. This only identifies the control - it does not restyle or hide it. Turn on Force Replace below if you also want KineticHub Scroll to Top to hide it."
+msgstr ""
+
+#: admin/views/partials/compat-status.php:143
+#: admin/views/tabs/general.php:45
+msgid "Instant"
+msgstr ""
+
+#: admin/views/tabs/general.php:113
+msgid "Instead of disappearing completely, the control shrinks to a quiet peek and restores on upward scroll, hover, touch, or focus."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:168
+msgid "Interaction Polish"
+msgstr ""
+
+#: admin/views/tabs/general.php:46
+msgid "Jumps straight to the destination."
+msgstr ""
+
+#: admin/views/tabs/position.php:169
+msgid "Keep the control clear of the page footer."
+msgstr ""
+
+#: admin/views/tabs/general.php:102
+msgid "Keeps the control out of the way while the visitor reads downward, and brings it back the moment they scroll up. Keyboard focus always keeps it visible."
+msgstr ""
+
+#: includes/class-khstt-admin.php:67
+msgid "KineticHub Scroll to Top"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:145
+msgid "KineticPower"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:129
+msgid "KineticPowers"
+msgstr ""
+
+#: includes/class-khstt-powers.php:73
+msgid "Launch a compact rocket sequence with ignition, travel and a soft arrival spark."
+msgstr ""
+
+#: includes/class-khstt-compat.php:636
+msgid "Lenis detected"
+msgstr ""
+
+#: admin/views/tabs/general.php:125
+msgid "Let visitors get back to exactly where they were reading."
+msgstr ""
+
+#: admin/views/partials/preview.php:30
+msgid "Live Preview"
+msgstr ""
+
+#: includes/class-khstt-compat.php:639
+msgid "Locomotive Scroll detected"
+msgstr ""
+
+#: includes/class-khstt-icons.php:95
+msgid "Long Arrow"
+msgstr ""
+
+#: admin/views/tabs/general.php:238
+msgid "Looks for a back-to-top control your theme or another plugin already adds, and reports it below. This only reads your pages; nothing on your site is changed unless you turn on Force Replace."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:323
+msgid "Lower this for a translucent, glassy control."
+msgstr ""
+
+#: admin/views/tabs/general.php:189
+msgid "Make sure KineticHub Scroll to Top works cleanly with your theme and the way your site scrolls."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:375
+msgid "Medium"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:16
+msgid "Minimal"
+msgstr ""
+
+#: includes/class-khstt-icons.php:93
+msgid "Minimal Arrow"
+msgstr ""
+
+#. translators: %s: the configured CSS selector.
+#: admin/views/partials/compat-status.php:191
+msgid "Mixed page and container scrolling detected. KineticHub Scroll to Top follows %s while that scroll area is in view, and steps aside while it is not."
+msgstr ""
+
+#: admin/views/partials/compat-status.php:195
+msgid "Mixed page and container scrolling detected. KineticHub Scroll to Top follows the scroll area while it is in view, and steps aside while it is not."
+msgstr ""
+
+#: admin/views/partials/preview.php:24
+msgid "Mobile"
+msgstr ""
+
+#: admin/views/tabs/position.php:147
+msgid "Mobile Bottom Offset"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:261
+msgid "Mobile Button Size"
+msgstr ""
+
+#: admin/views/tabs/position.php:137
+msgid "Mobile Horizontal Offset"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:271
+msgid "Mobile Icon Size"
+msgstr ""
+
+#: admin/views/tabs/position.php:108
+#: admin/views/tabs/progress.php:142
+msgid "Mobile Override"
+msgstr ""
+
+#: admin/views/tabs/progress.php:170
+msgid "Mobile Percentage"
+msgstr ""
+
+#: admin/views/tabs/position.php:125
+msgid "Mobile Position"
+msgstr ""
+
+#: admin/views/tabs/progress.php:160
+msgid "Mobile Ring Thickness"
+msgstr ""
+
+#: admin/views/tabs/general.php:25
+msgid "Motion"
+msgstr ""
+
+#: includes/class-khstt-compat.php:649
+msgid "Native page scrolling"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:114
+msgid "No competing back-to-top detected"
+msgstr ""
+
+#: includes/class-khstt-compat.php:645
+msgid "Non-standard scrolling detected"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:373
+msgid "None"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:57
+#: admin/views/partials/compat-status.php:111
+msgid "Not checked yet"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:168
+msgid "Nothing has been recorded yet."
+msgstr ""
+
+#: admin/views/tabs/progress.php:16
+#: includes/class-khstt-powers.php:68
+msgid "Off"
+msgstr ""
+
+#. translators: %s: the minimum scrollable distance, e.g. 400px.
+#: admin/views/tabs/visibility.php:99
+msgid "On a page with less than %s of scrollable distance, a scroll-to-top control has nothing useful to do, so it never appears. The check re-runs when the page is resized or its height changes."
+msgstr ""
+
+#: admin/views/tabs/progress.php:18
+msgid "On hover and focus"
+msgstr ""
+
+#: admin/views/tabs/position.php:158
+msgid "On phones, raises the control to a comfortable 48px target and keeps at least 16px of clearance from the screen edges, on top of the safe area. It only ever increases these values, never shrinks what you set."
+msgstr ""
+
+#: admin/views/tabs/general.php:252
+msgid "Only needed when your theme adds its own back-to-top control and offers no setting to turn it off."
+msgstr ""
+
+#: admin/views/tabs/general.php:280
+msgid "Only the competing control is hidden, and only where KineticHub Scroll to Top is showing its own control on that device. No theme or plugin script is removed, no setting of theirs is changed, and normal page scrolling is never disabled. Turning this off restores the original control on the next page load."
+msgstr ""
+
+#. translators: %s: link to the site's front page.
+#: admin/views/page-settings.php:65
+msgid "Open %s to record a fresh one, then return here."
+msgstr ""
+
+#: admin/views/partials/compat-status.php:177
+msgid "Open your site"
+msgstr ""
+
+#: admin/views/tabs/general.php:177
+msgid "Optional. A CSS selector for the element to scroll to, such as #main-content. Tried before the built-in detection; ignored if it matches nothing."
+msgstr ""
+
+#: admin/views/tabs/progress.php:66
+msgid "Optional. A CSS selector for the region to measure, such as .entry-content. Tried before the built-in detection; ignored if it matches nothing."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:18
+msgid "Outline"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:252
+msgid "Override Size on Mobile"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:223
+msgid "Override Size on Tablet"
+msgstr ""
+
+#: admin/views/tabs/position.php:116
+#: admin/views/tabs/progress.php:150
+msgid "Override on Mobile"
+msgstr ""
+
+#: admin/views/tabs/position.php:66
+msgid "Override on Tablet"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:79
+msgid "Page Scope"
+msgstr ""
+
+#: admin/views/tabs/general.php:160
+msgid "Page Top"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:18
+msgid "Pages only"
+msgstr ""
+
+#: admin/views/tabs/general.php:112
+msgid "Peek Mode"
+msgstr ""
+
+#: admin/views/tabs/progress.php:87
+msgid "Percentage"
+msgstr ""
+
+#: admin/views/page-settings.php:20
+#: admin/views/tabs/position.php:26
+msgid "Position"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:19
+msgid "Posts and pages"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:17
+msgid "Posts only"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:157
+msgid "Power Intensity"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:65
+msgid "Preset"
+msgstr ""
+
+#: admin/views/partials/preview.php:34
+msgid "Preview device"
+msgstr ""
+
+#: admin/views/page-settings.php:22
+msgid "Progress"
+msgstr ""
+
+#: admin/views/tabs/progress.php:110
+msgid "Progress Color"
+msgstr ""
+
+#: admin/views/tabs/progress.php:105
+msgid "Progress Colors"
+msgstr ""
+
+#: admin/views/tabs/progress.php:22
+msgid "Progress Ring"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:58
+msgid "Quick Style"
+msgstr ""
+
+#: admin/views/tabs/progress.php:54
+msgid "Reading progress through the article itself. Falls back to Whole Page when no content region is found."
+msgstr ""
+
+#: admin/views/tabs/general.php:26
+msgid "Reduced motion is always respected: visitors who ask for it get an instant jump regardless of this setting."
+msgstr ""
+
+#: includes/class-khstt-admin.php:158
+msgid "Reset every setting back to its default? This cannot be undone."
+msgstr ""
+
+#: admin/views/page-settings.php:258
+msgid "Reset to Defaults"
+msgstr ""
+
+#: includes/class-khstt-admin.php:166
+#: includes/class-khstt-frontend.php:324
+msgid "Return to previous position"
+msgstr ""
+
+#: includes/class-khstt-frontend.php:322
+msgid "Return to your previous reading position"
+msgstr ""
+
+#: includes/class-khstt-frontend.php:323
+msgid "Return to your previous reading position is available."
+msgstr ""
+
+#: admin/views/tabs/general.php:57
+msgid "Reveal"
+msgstr ""
+
+#: admin/views/tabs/general.php:64
+msgid "Reveal Trigger"
+msgstr ""
+
+#: admin/views/tabs/progress.php:76
+msgid "Ring Thickness"
+msgstr ""
+
+#: includes/class-khstt-powers.php:72
+msgid "Rocket Boost"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:113
+msgid "Rounded"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:252
+msgid "Running two controls may create duplicate buttons or inconsistent behaviour. Turning the existing control off in your theme or plugin settings is the cleanest fix; Force Replace below can hide it instead."
+msgstr ""
+
+#: admin/views/page-settings.php:253
+msgid "Save Changes"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:148
+msgid "Scroll Compatibility"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:152
+#: admin/views/tabs/general.php:195
+msgid "Scroll Container"
+msgstr ""
+
+#: admin/views/tabs/general.php:150
+msgid "Scroll Destination"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:151
+msgid "Scroll Environment"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:154
+#: admin/views/tabs/general.php:18
+msgid "Scroll Motion"
+msgstr ""
+
+#: admin/views/page-settings.php:124
+#: admin/views/page-settings.php:159
+#: includes/class-khstt-admin.php:68
+msgid "Scroll to Top"
+msgstr ""
+
+#: includes/class-khstt-frontend.php:348
+msgid "Scroll to the start of the content"
+msgstr ""
+
+#: includes/class-khstt-frontend.php:349
+msgid "Scroll to top"
+msgstr ""
+
+#: includes/class-khstt-admin.php:86
+msgid "Settings"
+msgstr ""
+
+#: admin/views/page-settings.php:184
+msgid "Settings sections"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:366
+msgid "Shadow"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:99
+msgid "Shape"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:90
+msgid "Short Pages"
+msgstr ""
+
+#: admin/views/tabs/progress.php:94
+msgid "Show Percentage"
+msgstr ""
+
+#: admin/views/tabs/progress.php:29
+msgid "Show Progress Ring"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:38
+msgid "Show on Desktop"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:60
+msgid "Show on Mobile"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:49
+msgid "Show on Tablet"
+msgstr ""
+
+#: admin/views/tabs/progress.php:88
+msgid "Show the exact number inside the control."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:187
+msgid "Shows a short action label beside the control on hover or keyboard focus."
+msgstr ""
+
+#: admin/views/partials/preview.php:90
+msgid "Simulated progress"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:197
+msgid "Size"
+msgstr ""
+
+#: includes/class-khstt-icons.php:97
+msgid "Slim Chevron"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:169
+msgid "Small touches that make the control feel answered rather than just present."
+msgstr ""
+
+#: admin/views/partials/compat-status.php:141
+#: admin/views/tabs/general.php:36
+#: admin/views/tabs/general.php:74
+#: includes/class-khstt-ui.php:326
+msgid "Smart"
+msgstr ""
+
+#: admin/views/tabs/general.php:237
+msgid "Smart Conflict Detection"
+msgstr ""
+
+#: admin/views/tabs/progress.php:53
+msgid "Smart Content"
+msgstr ""
+
+#: admin/views/tabs/position.php:175
+msgid "Smart Footer Dock"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:175
+msgid "Smart Idle Fade"
+msgstr ""
+
+#: admin/views/tabs/general.php:124
+#: admin/views/tabs/general.php:131
+msgid "Smart Return"
+msgstr ""
+
+#: admin/views/partials/preview.php:107
+msgid "Smart Return state"
+msgstr ""
+
+#: admin/views/tabs/general.php:101
+msgid "Smart Reveal"
+msgstr ""
+
+#: admin/views/partials/compat-status.php:142
+#: admin/views/tabs/general.php:41
+msgid "Smooth"
+msgstr ""
+
+#: includes/class-khstt-compat.php:642
+msgid "Smooth Scrollbar detected"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:17
+#: admin/views/tabs/appearance.php:374
+msgid "Soft"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:176
+msgid "Softens the control after a few seconds of inactivity, then restores it as soon as the visitor interacts again."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:117
+msgid "Square"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:73
+msgid "Straightforward targeting, no rule builder."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:376
+#: includes/class-khstt-powers.php:143
+msgid "Strong"
+msgstr ""
+
+#: includes/class-khstt-powers.php:141
+msgid "Subtle"
+msgstr ""
+
+#: admin/views/partials/preview.php:23
+msgid "Tablet"
+msgstr ""
+
+#: admin/views/tabs/position.php:97
+msgid "Tablet Bottom Offset"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:232
+msgid "Tablet Button Size"
+msgstr ""
+
+#: admin/views/tabs/position.php:87
+msgid "Tablet Horizontal Offset"
+msgstr ""
+
+#: admin/views/tabs/appearance.php:242
+msgid "Tablet Icon Size"
+msgstr ""
+
+#: admin/views/tabs/position.php:58
+msgid "Tablet Override"
+msgstr ""
+
+#: admin/views/tabs/position.php:75
+msgid "Tablet Position"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:80
+msgid "The WooCommerce option falls back to the entire site if WooCommerce is deactivated."
+msgstr ""
+
+#: admin/views/tabs/position.php:20
+msgid "The base position. Tablet and mobile inherit these values unless you override them below."
+msgstr ""
+
+#: admin/views/tabs/general.php:42
+msgid "The browser's native smooth scrolling."
+msgstr ""
+
+#: admin/views/tabs/appearance.php:198
+msgid "The button never goes below 44px so it stays a comfortable target on every device."
+msgstr ""
+
+#: admin/views/tabs/progress.php:50
+msgid "The full scrollable distance, header and footer included. Predictable on every page."
+msgstr ""
+
+#: admin/views/partials/preview.php:117
+msgid "The preview shows the control at its real pixel size. Offsets are drawn to scale inside this small stage, so they read larger here than on a full screen."
+msgstr ""
+
+#: admin/views/tabs/general.php:227
+msgid "The scrollable section to follow, written as a CSS selector such as .main-scroll-container. If it matches nothing, or matches something that cannot scroll, KineticHub Scroll to Top uses the browser window instead and says so below."
+msgstr ""
+
+#: admin/views/tabs/general.php:165
+msgid "The start of the article, skipping the header. Falls back to the page top if no content region is found."
+msgstr ""
+
+#: admin/views/page-settings.php:61
+msgid "The stored compatibility reading was cleared."
+msgstr ""
+
+#: admin/views/partials/compat-status.php:236
+msgid "The theme or plugin itself is untouched: only its front-end control is hidden, and it returns as soon as you turn this off."
+msgstr ""
+
+#: admin/views/tabs/progress.php:131
+msgid "The unfilled part of the ring. Keep it low for a subtle look."
+msgstr ""
+
+#: admin/views/tabs/general.php:161
+msgid "The very top of the page."
+msgstr ""
+
+#. translators: %s: human readable time difference, e.g. "5 mins".
+#: admin/views/partials/compat-status.php:163
+msgid "This reading was taken %s ago."
+msgstr ""
+
+#: admin/views/tabs/position.php:157
+msgid "Thumb Friendly"
+msgstr ""
+
+#: admin/views/tabs/progress.php:120
+msgid "Track Color"
+msgstr ""
+
+#: admin/views/tabs/progress.php:130
+msgid "Track Opacity"
+msgstr ""
+
+#: includes/class-khstt-icons.php:98
+msgid "Triangle Up"
+msgstr ""
+
+#: admin/views/tabs/general.php:90
+msgid "Trigger Distance"
+msgstr ""
+
+#: admin/views/tabs/progress.php:171
+msgid "Turning the number off on small screens keeps the control clean where space is tightest."
+msgstr ""
+
+#: admin/views/partials/preview.php:31
+msgid "Updates as you type. Nothing here is saved until you press Save Changes."
+msgstr ""
+
+#: admin/views/tabs/general.php:216
+msgid "Use a specific scrollable section instead of the page. Choose this only when your layout scrolls inside a container."
+msgstr ""
+
+#: includes/class-khstt-powers.php:69
+msgid "Use the standard Scroll to Top interaction."
+msgstr ""
+
+#: admin/views/tabs/general.php:207
+msgid "Uses normal page scrolling, and switches to a large custom scroll area only when one clearly controls the page."
+msgstr ""
+
+#. translators: %s: plugin version number.
+#: admin/views/page-settings.php:138
+msgid "Version %s"
+msgstr ""
+
+#. translators: %s: the mobile breakpoint.
+#: admin/views/tabs/visibility.php:62
+msgid "Viewports %s and narrower."
+msgstr ""
+
+#. translators: %s: the desktop breakpoint.
+#: admin/views/tabs/visibility.php:40
+msgid "Viewports %s and wider."
+msgstr ""
+
+#. translators: %s: the tablet breakpoint range.
+#: admin/views/tabs/visibility.php:51
+msgid "Viewports from %s."
+msgstr ""
+
+#: admin/views/page-settings.php:23
+msgid "Visibility"
+msgstr ""
+
+#: admin/views/tabs/progress.php:38
+msgid "What It Measures"
+msgstr ""
+
+#: admin/views/tabs/general.php:58
+msgid "When the control appears, and whether it stays on screen."
+msgstr ""
+
+#: admin/views/tabs/position.php:176
+msgid "When the footer scrolls into view, the control lifts just above it instead of sitting on top of it. Detects footer, .site-footer, and #colophon; does nothing if none of them exist."
+msgstr ""
+
+#: admin/views/tabs/visibility.php:72
+msgid "Where It Appears"
+msgstr ""
+
+#: admin/views/tabs/general.php:144
+msgid "Where the control sends the visitor."
+msgstr ""
+
+#: admin/views/tabs/progress.php:49
+msgid "Whole Page"
+msgstr ""
+
+#: admin/views/tabs/general.php:211
+msgid "Window"
+msgstr ""
+
+#: admin/views/tabs/visibility.php:27
+msgid "WooCommerce products only"
+msgstr ""
+
+#: includes/class-khstt-admin.php:342
+#: includes/class-khstt-admin.php:382
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: includes/class-khstt-compat.php:610
+msgid "matched on a data attribute"
+msgstr ""
+
+#: includes/class-khstt-compat.php:613
+msgid "matched on a link to the top of the page"
+msgstr ""
+
+#: includes/class-khstt-compat.php:604
+msgid "matched on its accessible label"
+msgstr ""
+
+#: includes/class-khstt-compat.php:620
+msgid "matched on its class"
+msgstr ""
+
+#: includes/class-khstt-compat.php:601
+msgid "matched on its id"
+msgstr ""
+
+#: includes/class-khstt-compat.php:607
+msgid "matched on its title"
+msgstr ""
+
+#: includes/class-khstt-compat.php:616
+msgid "matched your Existing Control Selector"
+msgstr ""
+
+#. translators: %s: link to the site's front page.
+#: admin/views/page-settings.php:67
+msgid "your site"
+msgstr ""
